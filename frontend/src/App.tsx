@@ -1,8 +1,8 @@
-import ListGroup from "./Components/ListGroup"
+import Navbar from "./Components/navbar"
 
 function App() {
   return (
-    <ListGroup />
+    <Navbar />
   );
 }
 
