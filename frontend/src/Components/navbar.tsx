@@ -1,15 +1,14 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 
 function Navbar() {
-
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
     borderRadius: "35px",
-    flexShrink: 0,
     background: "#EEE",
     fontSize: "20px",
-    padding: "0px 10px 0px 18px"
+    padding: "0px 10px 0px 18px",
+    margin: "13px 0px 13px 0px",
   };
 
   const ProfileStyle = {
@@ -17,7 +16,7 @@ function Navbar() {
     borderRadius: "100%",
     width: "50px",
     height: "50px",
-    marginRight: "10px"
+    marginRight: "10px",
   };
 
   const DownArrow = {
@@ -33,20 +32,20 @@ function Navbar() {
     justifyContent: "center",
     fontSize: "12px",
     marginTop: "28px",
-    marginLeft: "32px"
+    marginLeft: "32px",
   };
 
   const [SearchBar, setSearchBar] = useState("");
 
   const handleSubmit = (String: string) => {
-    console.log(String + ' submitted in form ✅');
+    console.log(String + " submitted in form ✅");
   };
 
   useEffect(() => {
     const keyDownHandler = (event: any) => {
-      console.log('User pressed: ', event.key);
+      console.log("User pressed: ", event.key);
 
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         event.preventDefault();
 
         // 👇️ call submit function here
@@ -54,10 +53,10 @@ function Navbar() {
       }
     };
 
-    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener("keydown", keyDownHandler);
 
     return () => {
-      document.removeEventListener('keydown', keyDownHandler);
+      document.removeEventListener("keydown", keyDownHandler);
     };
   }, []);
 
@@ -70,13 +69,30 @@ function Navbar() {
       >
         <div className="container-fluid">
           {/* Logo */}
-          <a className="navbar" href="#">
+          <a className="navbar-brand" href="#" style={{marginRight: "25%"}}>
             <img src="./src/assets/Logo.png" alt="Logo" />
           </a>
-          
+
+          {/* Collapse button */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
           {/* Search Bar */}
-          <div>
-            <form className="d-flex" role="search" style={{justifyContent: 'center'}}>
+          <div
+            // style={{ justifyContent: "center"}}
+            id="navbarSupportedContent"
+            className="collapse navbar-collapse"
+          >
+            <form role="search">
               <input
                 className="form-control me-2"
                 type="search"
@@ -85,19 +101,39 @@ function Navbar() {
                 id="SearchBar"
                 name="SearchBar"
                 value={SearchBar}
-                onChange={event => setSearchBar(event.target.value)}
+                onChange={(event) => setSearchBar(event.target.value)}
                 style={SearchBarStyle}
               />
               {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
             </form>
           </div>
 
-          {/* Profile */}
-          <div>
-            <a className="navbar" href="#">
-              <img src="./src/assets/Logo.png" alt="Profile" style={ProfileStyle}/>
-              <div style={DownArrow}>V</div>
-            </a>
+          {/* Profile and Chat*/}
+          <div
+            id="navbarSupportedContent"
+            className="collapse navbar-collapse"
+            style={{ justifyContent: "right", width: "50px" }}
+          >
+            <div style={{marginRight: "15px"}}> {/* Chat */}
+              <a className="navbar" href="#">
+                <img
+                  src="./src/assets/Logo.png"
+                  alt="Profile"
+                  style={ProfileStyle}
+                />            
+              </a>
+            </div>
+            <div> {/* Profile */}
+              <a className="navbar" href="#">
+                <img
+                  src="./src/assets/Logo.png"
+                  alt="Profile"
+                  style={ProfileStyle}
+                />
+                <div style={DownArrow}>V</div>
+                
+              </a>
+            </div>
           </div>
         </div>
       </nav>
