@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./navbar.css";
 
 function Navbar() {
   const SearchBarStyle = {
@@ -64,14 +66,14 @@ function Navbar() {
     <>
       {/* Navbar */}
       <nav
-        className="navbar navbar-expand-lg"
+        className="navbar navbar-expand-lg fixed-top"
         style={{ background: "#9BB1CB", height: "70px" }}
       >
         <div className="container-fluid">
           {/* Logo */}
-          <a className="navbar-brand" href="#" style={{marginRight: "25%"}}>
+          <Link className="navbar-brand" to="/" style={{marginRight: "25%"}}>
             <img src="./src/assets/Logo.png" alt="Logo" />
-          </a>
+          </Link>
 
           {/* Collapse button */}
           <button
@@ -115,16 +117,16 @@ function Navbar() {
             style={{ justifyContent: "right", width: "50px" }}
           >
             <div style={{marginRight: "15px"}}> {/* Chat */}
-              <a className="navbar" href="#">
+              <Link className="navbar" to="#">
                 <img
-                  src="./src/assets/Logo.png"
+                  src="./src/assets/Chat_icon.png"
                   alt="Profile"
                   style={ProfileStyle}
                 />            
-              </a>
+              </Link>
             </div>
             <div> {/* Profile */}
-              <a className="navbar" href="#">
+              <Link className="navbar" to="#">
                 <img
                   src="./src/assets/Logo.png"
                   alt="Profile"
@@ -132,7 +134,7 @@ function Navbar() {
                 />
                 <div style={DownArrow}>V</div>
                 
-              </a>
+              </Link>
             </div>
           </div>
         </div>
