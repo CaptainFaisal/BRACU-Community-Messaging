@@ -57,6 +57,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [erromsg, setErrormsg] = useState("");
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Email: " + email + " Password: " + password);
@@ -90,7 +91,7 @@ function Login() {
           onChange={(event) => setEmail(event.target.value)}
           required
         />
-        {/* Password filed */}
+        {/* Password field */}
         <input
           type="password"
           className="form-control mb-3"
