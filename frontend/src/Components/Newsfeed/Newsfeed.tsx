@@ -1,5 +1,6 @@
 import Navbar from "../Navbar/Navbar";
 import "./Newsfeed.css";
+import FindPeople from "../FindPeople/FindPeople";
 
 function Newsfeed() {
   return (
@@ -8,6 +9,7 @@ function Newsfeed() {
       <div className="row">
         <div className="col-3 wrapping_div left_panel">
           {/* Left panel. Find people option will be here */}
+          <FindPeople name = "Udoy" imgSource="maleAvatar.png" designation="Student" mutualFriends={30}/>
         </div>
 
         <div className="col wrapping_div middle_panel">

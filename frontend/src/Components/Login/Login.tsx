@@ -64,7 +64,7 @@ function Login() {
 
     // if email and password are correct, navigate to newsfeed with correct user profile
     axios
-      .post("http://localhost:6000/user", { email: email, password: password })
+      .post("http://localhost:3000/user", { email: email, password: password })
       .then((res) => {
         console.log(res.data)
         if(res.data.length==1){
@@ -102,7 +102,7 @@ function Login() {
           required
         />
         {/* Forgot password link */}
-        <p style={{color: "red", margin: "auto"}}>{erromsg}</p>
+        <p style={{color: "red", margin: "auto", textAlign: "center"}}>{erromsg}</p>
         <a href="#" className="forgot_password">
           Forgot Password?
         </a>

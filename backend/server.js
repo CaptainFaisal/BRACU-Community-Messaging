@@ -1,8 +1,9 @@
 const express = require('express');
 const db = require('./connection.js');
 const app = express();
-
+const cors = require('cors');
 app.use(express.json());
+app.use(cors());
 
 
 const userRouter = require('./routes/user');
@@ -32,6 +33,6 @@ app.use('/testDB', (req, res) => {
 // });
 
 
-app.listen(6000, () => {
-  console.log('Server is running on port 6000');
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });

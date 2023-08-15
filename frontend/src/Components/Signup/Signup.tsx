@@ -68,6 +68,18 @@ function Signup() {
     });
 
     // if email is not available already, create a new user and navigate to login (need to be implemented)
+    // axios
+    //   .post("http://localhost:3000/user", { email: email, password: password })
+    //   .then((res) => {
+    //     console.log(res.data)
+    //     if(res.data.length==1){
+    //       navigate("/home");
+    //     }else{
+    //       setErrormsg("Invalid credentials");
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+
     navigate("/login");
   };
 
