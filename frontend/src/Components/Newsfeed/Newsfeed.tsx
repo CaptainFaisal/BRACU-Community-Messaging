@@ -5,19 +5,23 @@ import FindPeople from "../FindPeople/FindPeople";
 function Newsfeed() {
   return (
     <>
-      <Navbar />
-      <div className="row">
-        <div className="col-3 wrapping_div left_panel">
-          {/* Left panel. Find people option will be here */}
-          <FindPeople name = "Udoy" imgSource="maleAvatar.png" designation="Student" mutualFriends={30}/>
-        </div>
+      <div className="external_wrapper">
+        <Navbar />
+        <div className="row" style={{ margin: 0 }}>
+          <div className="col-3 wrapping_div left_panel">
+            {/* Left panel. Find people option will be here */}
+            <h3 className="find_people">Find People</h3>
 
-        <div className="col wrapping_div middle_panel">
-          {/* Middle panel. Posts will be here */}
-        </div>
+            <FindPeople name = "Udoy" imgSource="maleAvatar.png" designation="Student" mutualFriends={30}/>
+          </div>
 
-        <div className="col-3 wrapping_div right_panel">
-          {/* Right panel. Advertisements will be here */}
+          <div className="col-6 wrapping_div middle_panel">
+            {/* Middle panel. Posts will be here */}
+          </div>
+
+          <div className="col-3 wrapping_div right_panel">
+            {/* Right panel. Advertisements will be here */}
+          </div>
         </div>
       </div>
     </>
