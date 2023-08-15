@@ -11,9 +11,9 @@ function Login() {
     flexShrink: "0",
     borderRadius: "25px",
     background: "rgba(52, 100, 157, 0.4)",
-    border: "none",
+    border: "1px solid rgba(52, 100, 157, 1)",
     boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
-    color: "#FFF !important",
+    color: "#FFF",
     fontFamily: "Inter",
     fontSize: "20px",
     fontStyle: "normal",
@@ -61,8 +61,10 @@ function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Email: " + email + " Password: " + password);
+
+    // if email and password are correct, navigate to newsfeed with correct user profile
     axios
-      .post("http://localhost:3000/user", { email: email, password: password })
+      .post("http://localhost:6000/user", { email: email, password: password })
       .then((res) => {
         console.log(res.data)
         if(res.data.length==1){
@@ -72,8 +74,6 @@ function Login() {
         }
       })
       .catch((err) => console.log(err));
-    // if email and password are correct, navigate to newsfeed with correct user profile (need to implement)
-
   };
 
   return (
@@ -106,9 +106,10 @@ function Login() {
         <a href="#" className="forgot_password">
           Forgot Password?
         </a>
+        {/* Login button */}
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn"
           style={{ ...button_style }}
         >
           Let's go
@@ -122,7 +123,7 @@ function Login() {
         </p>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn"
           style={{
             ...button_style,
             color: "rgba(42, 95, 172)",
