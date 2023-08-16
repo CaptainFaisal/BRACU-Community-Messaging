@@ -10,6 +10,7 @@ router.post('/', (req, res)=> {
     else res.send(result);
     })
 })
+
 router.get('/:userId', (req, res) => {
     const userId = req.params.userId;
     db.query(`SELECT * FROM users WHERE user_id = ${userId}`, (err, result) => {
