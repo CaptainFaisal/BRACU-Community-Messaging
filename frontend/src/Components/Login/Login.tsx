@@ -68,7 +68,7 @@ function Login() {
       .then((res) => {
         console.log(res.data)
         if(res.data.length==1){
-          navigate("/home");
+          navigate("/home", {state: res.data[0]});
         }else{
           setErrormsg("Invalid credentials");
         }

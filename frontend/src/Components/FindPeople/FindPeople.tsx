@@ -2,17 +2,17 @@ import { useNavigate } from "react-router";
 import "./FindPeople.css"
 
 interface Props {
-    imgSource?: string;
-    name?: string;
-    designation?: string;
-    mutualFriends?: number;
+    allDetails: object;
+    currentProfile: object;
 }
 
-function FindPeople({imgSource, name, designation, mutualFriends}: Props) {
+function FindPeople({allDetails, currentProfile}: Props) {
   const navigate = useNavigate();
 
+  // mutual friends need to be calculated
+
   const handleClick = () => {
-    // navigate("")
+    // navigate("/profile", { state: { allDetails: allDetails, currentProfile: currentProfile } });")
   }
   
   return (
@@ -22,13 +22,21 @@ function FindPeople({imgSource, name, designation, mutualFriends}: Props) {
           <div className="row" style={{ margin: 0 }}>
 
             <div className="col-3">
-              <img src={"src/assets/"+imgSource} alt="Profile Picture" className="profile_pic" />
+              {
+                allDetails["gender"] === 'M' ?
+                <img src="./src/assets/maleAvatar.png" alt="Profile Picture" className="profile_pic" /> :
+                <img src="./src/assets/femaleAvatar.png" alt="Profile Picture" className="profile_pic" />
+              }
             </div>
 
             <div className="col-9" style={{ marginLeft: "10px", marginRight: "-10px" }}>
-              <h4 className="name">{name}</h4>
-              <p className="designation">{designation}</p>
-              <p className="mutual">({mutualFriends} mutual)</p>
+              <h4 className="name">{allDetails["firstname"] + " " + allDetails["lastname"]}</h4>
+              {
+                allDetails["email"].includes("g.bracu.ac.bd") ?
+                <p className="designation">Student</p>:
+                <p className="designation">Faculty</p>
+              }
+              <p className="mutual">({} mutual)</p>
             </div>    
 
           </div>
