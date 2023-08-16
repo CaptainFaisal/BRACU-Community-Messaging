@@ -1,14 +1,35 @@
+import axios from "axios";
 import "./StatusBox.css"
+import { useState } from "react";
 
 interface Props {
   currentProfile: object;
 }
 
 function StatusBox({ currentProfile } : Props) {
+  const [statusText, setStatusText] = useState('');
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    // ettuk copilot dise.. ami ektu edit korsi, tarpor kichu bujhi nai-------------------
+    // axios.post('http://localhost:3001/api/status', {statusText, currentProfile})
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log('Success:', data);
+    //   setStatusText('');
+    // })
+    // .catch((error) => {
+    //   console.error('Error:', error);
+    // });
+    // -----------------------------------------------------------------------------------
+
+    event.target.reset();
+  }
 
   return (
     <>
-      <form >
+      <form onSubmit={handleSubmit}>
         <div className="outer">
             <div className="row">
                 <div className="col-1">
@@ -27,7 +48,9 @@ function StatusBox({ currentProfile } : Props) {
                 </div>
 
                 <div className="col">
-                  <input className="form-control" type="text" name="statusText" id="statusText" placeholder="Share your thoughts..." />
+                  <textarea className="form-control" name="statusText" id="statusText" cols="30" rows="3" placeholder="Share your thoughts..." 
+                    onKeyDown={(event) => event.key === 'Enter' ? event.stopPropagation() : null}
+                    onChange={(event) => setStatusText(event.target.value)} required />
                 </div>
 
                 <div className="col-1">

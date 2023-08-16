@@ -3,6 +3,7 @@ import "./Newsfeed.css";
 import FindPeople from "../FindPeople/FindPeople";
 import { useLocation } from "react-router";
 import StatusBox from "../StatusBox/StatusBox";
+import UserPost from "../UserPost/UserPost";
 
 function Newsfeed() {
   const location = useLocation();
@@ -30,6 +31,8 @@ function Newsfeed() {
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state}/>
+
+            <UserPost />
           </div>
 
           <div className="col-3 wrapping_div right_panel">

@@ -1,0 +1,9 @@
+.user-post {
+    width: 88%;
+    flex-shrink: 0;
+    background: #A5B8D1;
+    margin: auto;
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 20px;
+}
