@@ -36,7 +36,7 @@ function FindPeople({allDetails, currentProfile}: Props) {
                 <p className="designation">Student</p>:
                 <p className="designation">Faculty</p>
               }
-              <p className="mutual">({} mutual)</p>
+              <p className="mutual">({allDetails["mutual"]} mutual)</p>
             </div>    
 
           </div>
