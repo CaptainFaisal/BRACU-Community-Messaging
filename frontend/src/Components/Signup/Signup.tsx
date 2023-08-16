@@ -52,59 +52,41 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formCheck, setFormCheck] = useState(false);
-  const [pwdErrorMsg, setPwdErrorMsg] = useState("");
-  const [errorMsg, setErrormsg] = useState("");
-  const [blurOccured, setBlurOccured] = useState(false);
 
-
-  const checkPassword = () => {
-    if(password !== confirmPassword){
-      setPwdErrorMsg("Password mismatch")
-      return false;
-    }else{
-      setPwdErrorMsg("")
-      return true;
-    }
-  }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(!checkPassword()) return;
-    if(!formCheck){
-      setErrormsg("Please agree to the terms and conditions");
-      return;
-    }
-    // if email is not available already, create a new user and navigate to login (need to be implemented)
+    console.log({
+      FirstName : fName,
+      LastName : lName,
+      Email : email,
+      DOB : dob,
+      Phone : phone,
+      Gender: gender,
+      Password : password,
+      ConfirmPassword : confirmPassword,
+      FormCheck : formCheck
+    });
 
-    axios
-    .post("http://localhost:3000/user/new", {
-    firstName: fName,
-    lastName: lName,
-    email: email,
-    dob: dob,
-    phone: phone,
-    gender: gender,
-    password: password,
-    formCheck: formCheck,
-  })
-    .then((res) => {
-      if(res.data.msg==="success"){
-        navigate("/login");
-      }else{
-        setErrormsg(res.data.msg);
-      }
-    })
-    .catch((err) => console.log(err));
+    // if email is not available already, create a new user and navigate to login (need to be implemented)
+    // axios
+    //   .post("http://localhost:3000/user", { email: email, password: password })
+    //   .then((res) => {
+    //     console.log(res.data)
+    //     if(res.data.length==1){
+    //       navigate("/home");
+    //     }else{
+    //       setErrormsg("Invalid credentials");
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+
+    navigate("/login");
   };
 
   return (
     <MiddleBoxRaw blur="10px">
       <form className="signup_form" onSubmit={handleSubmit}>
-        <p
-          className="text-center section_text each_row"
-          style={{ marginBottom: "30px" }}
-        >
-          Sign Up
-        </p>
+        <p className="text-center section_text each_row" style={{marginBottom: "30px"}}>Sign Up</p>
 
         <div className="row each_row">
           {/* First name */}
@@ -190,43 +172,16 @@ function Signup() {
               Date of Birth
             </label>
             <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="Male"
-                value="M"
-                onChange={(event) => setGender(event.target.value)}
-              />
-              <label className="form-check-label" htmlFor="inlineRadio1">
-                Male
-              </label>
+              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Male" value="M" onChange={(event) => setGender(event.target.value)}/>
+              <label className="form-check-label" htmlFor="inlineRadio1">Male</label>
             </div>
             <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="Female"
-                value="F"
-                onChange={(event) => setGender(event.target.value)}
-              />
-              <label className="form-check-label" htmlFor="inlineRadio2">
-                Female
-              </label>
+              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Female" value="F" onChange={(event) => setGender(event.target.value)}/>
+              <label className="form-check-label" htmlFor="inlineRadio2">Female</label>
             </div>
             <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="Other"
-                value="O"
-                onChange={(event) => setGender(event.target.value)}
-              />
-              <label className="form-check-label" htmlFor="inlineRadio2">
-                Other
-              </label>
+              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Other" value="O" onChange={(event) => setGender(event.target.value)}/>
+              <label className="form-check-label" htmlFor="inlineRadio2">Other</label>
             </div>
           </div>
         </div>
@@ -248,10 +203,7 @@ function Signup() {
           </div>
           {/* Confirm Password */}
           <div className="col">
-            <label
-              htmlFor="inputConfirmPassword"
-              className="form-label label_text"
-            >
+            <label htmlFor="inputConfirmPassword" className="form-label label_text">
               Confirm Password
             </label>
             <input
@@ -260,48 +212,30 @@ function Signup() {
               id="inputConfirmPassword"
               style={{ ...input_box, marginTop: "5px" }}
               onChange={(event) => setConfirmPassword(event.target.value)}
-              onBlur={() => {
-                setBlurOccured(true);
-                checkPassword()
-              }}
-              onKeyUp={() => {
-                if(blurOccured){
-                  checkPassword()
-                }
-              }}
               required
             />
-          <p style={{color:"red"}}>{pwdErrorMsg}</p>
           </div>
         </div>
 
         {/* Terms and conditions */}
-        <div className="row form_confirmation" style={{ margin: "0 auto" }}>
-          <div
-            className="form-check col"
-            style={{ margin: "0 auto", marginTop: "20px" }}
-          >
+        <div className="row form_confirmation" style={{margin: "0 auto"}}>
+          <div className="form-check col" style={{margin: "0 auto", marginTop: "20px"}}>
             <input
               type="checkbox"
               className="form-check-input"
               id="exampleCheck1"
-              style={{ borderRadius: "50%", float: "none", margin: 0 }}
+              style={{ borderRadius: "50%", float: "none", margin: 0, }}
               onChange={(event) => setFormCheck(event.target.checked)}
               required
             />
-            <label
-              className="form-check-label"
-              htmlFor="exampleCheck1"
-              style={{ marginLeft: "10px" }}
-            >
+            <label className="form-check-label" htmlFor="exampleCheck1" style={{marginLeft: "10px"}}>
               I agree to the terms and conditions
             </label>
-            <p style={{color: "red"}}>{errorMsg}</p>
           </div>
         </div>
 
         {/* Sign up button */}
-        <button type="submit" className="btn" style={{ ...button_style }}>
+        <button type="submit" className="btn" style={{...button_style}}>
           Create Your Account
         </button>
       </form>

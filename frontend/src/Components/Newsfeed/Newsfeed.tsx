@@ -6,7 +6,6 @@ import StatusBox from "../StatusBox/StatusBox";
 
 function Newsfeed() {
   const location = useLocation();
-  
   let arr = [location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, ]
   
   return (
@@ -20,9 +19,7 @@ function Newsfeed() {
 
             {/* <FindPeople allDetails = {user details} currentProfile = {location.state}/> */}
             {
-              arr.map((item, index) => {
-                return <FindPeople key={index} allDetails={item} currentProfile={location.state}/>
-              }
+              arr.map((item, index) => <FindPeople key={index} allDetails={item} currentProfile={location.state}/>
               )
             }
           </div>
