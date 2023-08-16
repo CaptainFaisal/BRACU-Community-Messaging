@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { useNavigate, useLocation } from "react-router";
 
-function Navbar() {
+interface Props {
+  gender?: string;
+}
+
+function Navbar( {gender}: Props ) {
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -13,31 +17,9 @@ function Navbar() {
     margin: "13px 0px 13px 0px",
   };
 
-  const ProfileStyle = {
-    position: "relative",
-    borderRadius: "100%",
-    width: "50px",
-    height: "50px",
-    marginRight: "10px",
-  };
-
-  const DownArrow = {
-    position: "absolute",
-    display: "flex",
-    fontWeight: "bold",
-    color: "white",
-    background: "#2A5FAC",
-    width: "18px",
-    height: "18px",
-    border: "0.25px solid white",
-    borderRadius: "35px",
-    justifyContent: "center",
-    fontSize: "12px",
-    marginTop: "28px",
-    marginLeft: "32px",
-  };
-
   const [SearchBar, setSearchBar] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = (String: string) => {
     console.log(String + " submitted in form ✅");
@@ -71,9 +53,9 @@ function Navbar() {
       >
         <div className="container-fluid">
           {/* Logo */}
-          <Link className="navbar-brand" to="/" style={{marginRight: "25%"}}>
+          <button className="navbar-brand" style={{marginRight: "25%"}} onClick={() => navigate("/home", {state: location.state})}>
             <img src="./src/assets/Logo.png" alt="Logo" />
-          </Link>
+          </button>
 
           {/* Collapse button */}
           <button
@@ -117,24 +99,32 @@ function Navbar() {
             style={{ justifyContent: "right", width: "50px" }}
           >
             <div style={{marginRight: "15px"}}> {/* Chat */}
-              <Link className="navbar" to="#">
+              <button className="navbar">
                 <img
                   src="./src/assets/Chat_icon.png"
                   alt="Profile"
-                  style={ProfileStyle}
+                  className="ProfileStyle"
                 />            
-              </Link>
+              </button>
             </div>
             <div> {/* Profile */}
-              <Link className="navbar" to="#">
-                <img
-                  src="./src/assets/Logo.png"
+              <button className="navbar" onClick={() => console.log("Needs to be iplemented")}>
+                {gender==='M'?
+                  <img
+                  src="./src/assets/maleAvatar.png"
                   alt="Profile"
-                  style={ProfileStyle}
+                  className="ProfileStyle"
+                /> :
+                <img
+                  src="./src/assets/femaleAvatar.png"
+                  alt="Profile"
+                  className="ProfileStyle"
                 />
-                <div style={DownArrow}>V</div>
+                }
                 
-              </Link>
+                <div className="DownArrow">V</div>
+                
+              </button>
             </div>
           </div>
         </div>
