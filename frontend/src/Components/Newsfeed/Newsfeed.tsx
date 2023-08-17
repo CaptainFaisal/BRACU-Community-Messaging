@@ -32,7 +32,7 @@ function Newsfeed() {
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state}/>
 
-            <UserPost />
+            <UserPost allDetails={{content : "Hello world\nYEsagggggggggggggggggg ggggggEvEEEEEEEEEEEEEEEHHHHHHHHHHHHHHk gHHH!!!!!!!!!!sjfffffffffff fffffffffffffffffffffffffff", timestamp : "11:00:00", creator : location.state}}/>
           </div>
 
           <div className="col-3 wrapping_div right_panel">

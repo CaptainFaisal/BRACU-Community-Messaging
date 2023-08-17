@@ -1,12 +1,17 @@
 import "./UserPost.css"
 
-function UserPost() {
+interface Props {
+  allDetails: object
+}
+
+function UserPost( {allDetails}: Props ) {
   return (
     <>
       <div className="user-post">
         <div className="row">
-          <div className="col-1">
-            {currentProfile["gender"]==='M'?
+          {/* user pic */}
+          <button className="col-1 picButton" onClick={() => console.log("Pic")}>
+            {allDetails.creator["gender"]==='M'?
                 <img
                 src="./src/assets/maleAvatar.png"
                 alt="Profile"
@@ -18,8 +23,14 @@ function UserPost() {
                 className="ProfileStyle"
               />
             }
+          </button>
+
+          <div className="col-11" style={{ marginLeft: "10px", marginRight: "-10px" }} onClick={() => console.log("Name")}>
+            <button className="creator_name nameButton">{allDetails.creator["firstname"] + " " + allDetails.creator["lastname"]}</button>
+            <p className="timestamp_text">{allDetails.timestamp}</p>
           </div>
-          <div className="col-11"></div>
+
+          <div className="col postContent">{allDetails.content}</div>
         </div>
       </div>
     </>
