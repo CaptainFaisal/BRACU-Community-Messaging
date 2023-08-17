@@ -28,6 +28,16 @@ router.post('/new', (req, res) => {
         }
     })
 })
+router.post('/createnewpost', (req, res) => {
+    const data = req.body;
+    db.query(`INSERT INTO posts (content, creator_id) VALUES ("${data.content}", ${data.user_id})`, err => {
+        if (err) {
+            res.send({ msg: "error" });
+        } else {
+            res.send({ msg: "success" });
+        }
+    })
+})
 router.get('/getrandomusers/:usercount/:user_id', (req, res) => {
     db.query(`SELECT user_id, gender, firstname, lastname, email FROM users WHERE user_id != ${req.params.user_id} ORDER BY RAND() LIMIT ${req.params.usercount};`, (err, result) => {
         if (err) console.log(err)

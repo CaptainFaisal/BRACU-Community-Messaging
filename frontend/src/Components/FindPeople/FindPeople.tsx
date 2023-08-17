@@ -15,7 +15,6 @@ function FindPeople({allDetails, currentProfile}: Props) {
   const handleClick = () => {
     // navigate("/profile", { state: { allDetails: allDetails, currentProfile: currentProfile } });")
   }
-  console.log(allDetails) 
   return (
     <>
       <button className="main_btn" onClick={handleClick}>

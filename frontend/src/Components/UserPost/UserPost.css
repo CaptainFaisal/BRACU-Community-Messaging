@@ -1,0 +1,59 @@
+.nameButton {
+    margin: none;
+    padding: none;
+    border: none;
+    background: none;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.picButton {
+    margin: none;
+    padding: none;
+    border: none;
+    background: none;
+    height: 50px;
+    margin-bottom: 25px;
+}
+
+.user-post {
+    width: 88%;
+    flex-shrink: 0;
+    background: #A5B8D1;
+    margin: auto;
+    border-radius: 20px;
+    padding: 25px 25px 0px 25px;
+    margin-top: 20px;
+}
+
+.creator_name {
+    text-decoration: none;
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.timestamp_text {
+    color: #555;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+}
+
+.postContent {
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    max-width: 100%;
+    overflow: scroll;
+    margin-bottom: 25px;
+}
