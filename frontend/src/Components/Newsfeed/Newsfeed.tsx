@@ -1,14 +1,19 @@
 import Navbar from "../Navbar/Navbar";
+import { useState, useEffect } from "react";
 import "./Newsfeed.css";
 import FindPeople from "../FindPeople/FindPeople";
 import { useLocation } from "react-router";
 import StatusBox from "../StatusBox/StatusBox";
 import axios from "axios";
 
+
 function Newsfeed() {
   const location = useLocation();
-  let arr = [location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, ]
-  
+  const [usrData, setUsrData] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`).then(res => 
+    setUsrData(res.data)).catch(err => console.log(err));
+  }, [])
   return (
     <>
       <div className="external_wrapper">
@@ -20,9 +25,10 @@ function Newsfeed() {
 
             {/* <FindPeople allDetails = {user details} currentProfile = {location.state}/> */}
             {
-              axios.get("http://localhost:3000/user/get10randomuser", location.state).then(res =>{
-                console.log(res.data);
-              }).catch(err => console.log(err))
+              usrData.map((item, index) => {
+                return <FindPeople key={index} allDetails={item} currentProfile={location.state}/>
+              }
+              )
             }
           </div>
 
