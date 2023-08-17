@@ -4,11 +4,17 @@ import FindPeople from "../FindPeople/FindPeople";
 import { useLocation } from "react-router";
 import StatusBox from "../StatusBox/StatusBox";
 import UserPost from "../UserPost/UserPost";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Newsfeed() {
   const location = useLocation();
-  
-  let arr = [location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, location.state, ]
+  const [usrData, setUsrData] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`).then(res => 
+    setUsrData(res.data)).catch(err => console.log(err));
+  }, [])
   
   return (
     <>
@@ -21,9 +27,9 @@ function Newsfeed() {
 
             {/* <FindPeople allDetails = {user details} currentProfile = {location.state}/> */}
             {
-              arr.map((item, index) => {
+              usrData.map((item, index) => {
                 return <FindPeople key={index} allDetails={item} currentProfile={location.state}/>
-              }
+                }
               )
             }
           </div>
@@ -32,7 +38,7 @@ function Newsfeed() {
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state}/>
 
-            <UserPost allDetails={{content : "Hello world\nYEsagggggggggggggggggg ggggggEvEEEEEEEEEEEEEEEHHHHHHHHHHHHHHk gHHH!!!!!!!!!!sjfffffffffff fffffffffffffffffffffffffff", timestamp : "11:00:00", creator : location.state}}/>
+            <UserPost allDetails={{content : "Hello world\nYEsagggggggggg gggggggg ggggggEvEEEEEEEEEEEEEEEHHHHH HHHHHHHHHk gHHH!!!!!! !!!!sjffffffffff f  fffffff fffffffffff fffffffff", timestamp : "11:00:00", creator : location.state}}/>
           </div>
 
           <div className="col-3 wrapping_div right_panel">

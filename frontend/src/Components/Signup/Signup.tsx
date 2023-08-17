@@ -26,6 +26,21 @@ function Signup() {
     },
   };
 
+  const check_box = {
+    width: "80%",
+    height: "50px",
+    flexShrink: "0",
+    color: "#000",
+    fontFamily: "Inter",
+    fontSize: "22px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "normal",
+    margin: "0 auto",
+    padding: "0 20px",
+    paddingTop: "10px",
+  };
+
   const button_style = {
     display: "block",
     margin: "auto",
@@ -42,53 +57,69 @@ function Signup() {
     boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
   };
 
+  const each_row = {
+    margin: "20px auto",
+  }
+
   const navigate = useNavigate();
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("1");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formCheck, setFormCheck] = useState(false);
+  const [pwdErrorMsg, setPwdErrorMsg] = useState("");
+  const [errorMsg, setErrormsg] = useState("");
+  const [blurOccured, setBlurOccured] = useState(false);
+
+  const checkPassword = () => {
+    if(password !== confirmPassword){
+      setPwdErrorMsg("Password mismatch")
+      return false;
+    }else{
+      setPwdErrorMsg("")
+      return true;
+    }
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({
-      FirstName : fName,
-      LastName : lName,
-      Email : email,
-      DOB : dob,
-      Phone : phone,
-      Gender: gender,
-      Password : password,
-      ConfirmPassword : confirmPassword,
-      FormCheck : formCheck
-    });
+    if(!checkPassword()) return;
+    if(!formCheck){
+      setErrormsg("Please agree to the terms and conditions");
+      return;
+    }
 
-    // if email is not available already, create a new user and navigate to login (need to be implemented)
-    // axios
-    //   .post("http://localhost:3000/user", { email: email, password: password })
-    //   .then((res) => {
-    //     console.log(res.data)
-    //     if(res.data.length==1){
-    //       navigate("/home");
-    //     }else{
-    //       setErrormsg("Invalid credentials");
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
-
-    navigate("/login");
+    axios
+    .post("http://localhost:3000/user/new", {
+    firstName: fName,
+    lastName: lName,
+    email: email,
+    dob: dob,
+    phone: phone,
+    gender: gender,
+    password: password,
+    formCheck: formCheck,
+  })
+    .then((res) => {
+      if(res.data.msg==="success"){
+        navigate("/login");
+      }else{
+        setErrormsg(res.data.msg);
+      }
+    })
+    .catch((err) => console.log(err));
   };
 
   return (
     <MiddleBoxRaw blur="10px">
       <form className="signup_form" onSubmit={handleSubmit}>
-        <p className="text-center section_text each_row" style={{marginBottom: "30px"}}>Sign Up</p>
+        <p className="text-center section_text" style={{marginBottom: "30px", ...each_row}}>Sign Up</p>
 
-        <div className="row each_row">
+        <div className="row" style={each_row}>
           {/* First name */}
           <div className="col">
             <label htmlFor="inputFirstName" className="form-label label_text">
@@ -119,7 +150,7 @@ function Signup() {
           </div>
         </div>
 
-        <div className="row each_row">
+        <div className="row" style={each_row}>
           {/* Email */}
           <div className="col">
             <label htmlFor="inputEmail" className="form-label label_text">
@@ -151,7 +182,7 @@ function Signup() {
           </div>
         </div>
 
-        <div className="row each_row">
+        <div className="row" style={each_row}>
           {/* Phone number */}
           <div className="col">
             <label htmlFor="inputPhone" className="form-label label_text">
@@ -169,24 +200,26 @@ function Signup() {
           {/* Gender */}
           <div className="col">
             <label htmlFor="inputDob" className="form-label label_text">
-              Date of Birth
+              Gender
             </label>
-            <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Male" value="M" onChange={(event) => setGender(event.target.value)}/>
-              <label className="form-check-label" htmlFor="inlineRadio1">Male</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Female" value="F" onChange={(event) => setGender(event.target.value)}/>
-              <label className="form-check-label" htmlFor="inlineRadio2">Female</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Other" value="O" onChange={(event) => setGender(event.target.value)}/>
-              <label className="form-check-label" htmlFor="inlineRadio2">Other</label>
+            <div className="row" style={{ ...check_box, marginTop: "5px" }}>
+              <div className="form-check form-check-inline col">
+                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Male" onChange={() => setGender("1")}/>
+                <label className="form-check-label" htmlFor="Male">Male</label>
+              </div>
+              <div className="form-check form-check-inline col">
+                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Female" onChange={() => setGender("2")}/>
+                <label className="form-check-label" htmlFor="Female">Female</label>
+              </div>
+              <div className="form-check form-check-inline col">
+                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Others" onChange={() => setGender("3")}/>
+                <label className="form-check-label" htmlFor="Others">Other</label>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="row each_row">
+        <div className="row" style={each_row}>
           {/* Password */}
           <div className="col">
             <label htmlFor="inputPassword" className="form-label label_text">
@@ -212,13 +245,23 @@ function Signup() {
               id="inputConfirmPassword"
               style={{ ...input_box, marginTop: "5px" }}
               onChange={(event) => setConfirmPassword(event.target.value)}
+              onBlur={() => {
+                setBlurOccured(true);
+                checkPassword()
+              }}
+              onKeyUp={() => {
+                if(blurOccured){
+                  checkPassword()
+                }
+              }}
               required
             />
+            <p style={{color:"red", textAlign: "center", marginBottom: "-20px"}}>{pwdErrorMsg}</p>
           </div>
         </div>
 
         {/* Terms and conditions */}
-        <div className="row form_confirmation" style={{margin: "0 auto"}}>
+        <div className="row form_confirmation" style={{margin: "0 auto", ...each_row}}>
           <div className="form-check col" style={{margin: "0 auto", marginTop: "20px"}}>
             <input
               type="checkbox"
@@ -231,6 +274,7 @@ function Signup() {
             <label className="form-check-label" htmlFor="exampleCheck1" style={{marginLeft: "10px"}}>
               I agree to the terms and conditions
             </label>
+            <p style={{color: "red"}}>{errorMsg}</p>
           </div>
         </div>
 

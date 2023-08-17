@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 import "./FindPeople.css"
+import axios from "axios";
 
 interface Props {
     allDetails: object;
@@ -10,6 +12,11 @@ function FindPeople({allDetails, currentProfile}: Props) {
   const navigate = useNavigate();
 
   // mutual friends need to be calculated
+  const [mutual, setMutual] = useState(0);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/user/getmutualcount/${allDetails.user_id}/${currentProfile.user_id}`).then(res => setMutual(res.data.mutual)).catch(err => console.log(err));
+  }, [])
 
   const handleClick = () => {
     // navigate("/profile", { state: { allDetails: allDetails, currentProfile: currentProfile } });")
@@ -23,7 +30,7 @@ function FindPeople({allDetails, currentProfile}: Props) {
 
             <div className="col-3">
               {
-                allDetails["gender"] === 'M' ?
+                allDetails["gender"] === '1' ?
                 <img src="./src/assets/maleAvatar.png" alt="Profile Picture" className="profile_pic" /> :
                 <img src="./src/assets/femaleAvatar.png" alt="Profile Picture" className="profile_pic" />
               }
@@ -36,7 +43,7 @@ function FindPeople({allDetails, currentProfile}: Props) {
                 <p className="designation">Student</p>:
                 <p className="designation">Faculty</p>
               }
-              <p className="mutual">({} mutual)</p>
+              <p className="mutual">{mutual > 0?`(${mutual} mutual)`:"(No mutual)"}</p>
             </div>    
 
           </div>

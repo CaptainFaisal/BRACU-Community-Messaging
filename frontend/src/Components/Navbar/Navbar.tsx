@@ -109,7 +109,7 @@ function Navbar( {gender}: Props ) {
             </div>
             <div> {/* Profile */}
               <button className="navbar" onClick={() => console.log("Needs to be iplemented")}>
-                {gender==='M'?
+                {gender==='1'?
                   <img
                   src="./src/assets/maleAvatar.png"
                   alt="Profile"

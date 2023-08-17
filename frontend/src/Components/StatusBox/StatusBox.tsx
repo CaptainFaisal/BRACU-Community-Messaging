@@ -11,18 +11,14 @@ function StatusBox({ currentProfile } : Props) {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-
-    // ettuk copilot dise.. ami ektu edit korsi, tarpor kichu bujhi nai-------------------
-    // axios.post('http://localhost:3001/api/status', {statusText, currentProfile})
-    // .then(response => response.json())
-    // .then(data => {
-    //   console.log('Success:', data);
-    //   setStatusText('');
-    // })
-    // .catch((error) => {
-    //   console.error('Error:', error);
-    // });
-    // -----------------------------------------------------------------------------------
+    
+    axios.post('http://localhost:3000/user/createnewpost', {user_id: currentProfile["user_id"], content: statusText})
+    .then(res => {
+      console.log('Success:', res.data.msg);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
     event.target.reset();
   }
@@ -33,7 +29,7 @@ function StatusBox({ currentProfile } : Props) {
         <div className="outer">
             <div className="row">
                 <div className="col-1">
-                  {currentProfile["gender"]==='M'?
+                  {currentProfile["gender"]==='1'?
                     <img
                     src="./src/assets/maleAvatar.png"
                     alt="Profile"

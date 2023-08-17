@@ -11,7 +11,7 @@ function UserPost( {allDetails}: Props ) {
         <div className="row">
           {/* user pic */}
           <button className="col-1 picButton" onClick={() => console.log("Pic")}>
-            {allDetails.creator["gender"]==='M'?
+            {allDetails.creator["gender"]==='1'?
                 <img
                 src="./src/assets/maleAvatar.png"
                 alt="Profile"
@@ -30,7 +30,7 @@ function UserPost( {allDetails}: Props ) {
             <p className="timestamp_text">{allDetails.timestamp}</p>
           </div>
 
-          <div className="col postContent">{allDetails.content}</div>
+          <div className="col postContent">{allDetails.content.replace('H', "")}</div>
         </div>
       </div>
     </>
