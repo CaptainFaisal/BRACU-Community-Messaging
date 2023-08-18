@@ -11,10 +11,24 @@ function Newsfeed() {
   const location = useLocation();
   const [usrData, setUsrData] = useState([]);
 
+  let postData = [] // get some posts from the currentProfile's friendlist from database
+  // post = {
+  //   post_id: 1,
+  //   content: "Hello world\nYEsagggggggggg gggggggg ggggggEvEEEEEEEEEEEEEEEHHHHH HHHHHHHHHk gHHH!!!!!! !!!!sjffffffffff f  fffffff fffffffffff fffffffff",
+  //   timestamp: "11:00:00",
+  //   creator: {
+  //     user_id: 1,
+  //     firstname: "John",
+  //     lastname: "Doe",
+  //     gender: "1",
+  //   }
+  // }
+
   useEffect(() => {
     axios.get(`http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`).then(res => 
     setUsrData(res.data)).catch(err => console.log(err));
   }, [])
+  // 
   
   return (
     <>
@@ -37,8 +51,14 @@ function Newsfeed() {
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state}/>
-
-            <UserPost allDetails={{content : "Hello world\nYEsagggggggggg gggggggg ggggggEvEEEEEEEEEEEEEEEHHHHH HHHHHHHHHk gHHH!!!!!! !!!!sjffffffffff f  fffffff fffffffffff fffffffff", timestamp : "11:00:00", creator : location.state}}/>
+            
+            {/* <UserPost details={temp} currentProfile={location.state}/> */}
+            {
+              postData.map((item, index) => {
+                return <FindPeople key={index} details={item} currentProfile={location.state}/>
+                }
+              )
+            }
           </div>
 
           <div className="col-3 wrapping_div right_panel">

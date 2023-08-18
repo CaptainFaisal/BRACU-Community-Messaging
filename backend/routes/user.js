@@ -30,7 +30,7 @@ router.post('/new', (req, res) => {
 })
 
 router.get('/getrandomusers/:usercount/:user_id', (req, res) => {
-    db.query(`SELECT user_id, gender, firstname, lastname, email FROM users WHERE user_id != ${req.params.user_id} ORDER BY RAND() LIMIT ${req.params.usercount};`, (err, result) => {
+    db.query(`SELECT DISTINCT user_id, gender, firstname, lastname, email FROM users WHERE user_id != ${req.params.user_id} ORDER BY RAND() LIMIT ${req.params.usercount};`, (err, result) => {
         if (err) console.log(err)
         res.send(result);
     });

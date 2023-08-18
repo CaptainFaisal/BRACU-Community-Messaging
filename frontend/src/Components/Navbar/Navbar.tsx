@@ -23,6 +23,7 @@ function Navbar( {gender}: Props ) {
 
   const handleSubmit = (String: string) => {
     console.log(String + " submitted in form ✅");
+    // think about what will happen if the user searches for something
   };
 
   useEffect(() => {

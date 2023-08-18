@@ -10,6 +10,7 @@ function StatusBox({ currentProfile } : Props) {
   const [statusText, setStatusText] = useState('');
 
   const handleSubmit = (event: any) => {
+    // Gives axios error
     event.preventDefault();
     
     axios.post('http://localhost:3000/user/createnewpost', {user_id: currentProfile["user_id"], content: statusText})

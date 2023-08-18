@@ -11,7 +11,6 @@ interface Props {
 function FindPeople({allDetails, currentProfile}: Props) {
   const navigate = useNavigate();
 
-  // mutual friends need to be calculated
   const [mutual, setMutual] = useState(0);
 
   useEffect(() => {
