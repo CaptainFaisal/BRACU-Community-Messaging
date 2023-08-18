@@ -38,6 +38,12 @@ router.post('/createnewpost', (req, res) => {
         }
     })
 })
+router.get('/getallusers', (req, res) => {
+    db.query(`SELECT user_id, gender, firstname, lastname, email FROM users`, (err, result) => {
+        if (err) console.log(err)
+        res.send(result);
+    })
+});
 router.get('/getrandomusers/:usercount/:user_id', (req, res) => {
     db.query(`SELECT user_id, gender, firstname, lastname, email FROM users WHERE user_id != ${req.params.user_id} ORDER BY RAND() LIMIT ${req.params.usercount};`, (err, result) => {
         if (err) console.log(err)

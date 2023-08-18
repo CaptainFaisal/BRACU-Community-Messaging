@@ -60,7 +60,6 @@ function Login() {
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Email: " + email + " Password: " + password);
 
     // if email and password are correct, navigate to newsfeed with correct user profile
     axios

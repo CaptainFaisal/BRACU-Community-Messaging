@@ -4,9 +4,10 @@ import { useNavigate, useLocation } from "react-router";
 
 interface Props {
   gender?: string;
+  onSearch?: (searchString: string) => void;
 }
 
-function Navbar( {gender}: Props ) {
+function Navbar( {gender, onSearch}: Props ) {
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -22,17 +23,14 @@ function Navbar( {gender}: Props ) {
   const location = useLocation();
 
   const handleSubmit = (String: string) => {
+    onSearch!(String);
     console.log(String + " submitted in form ✅");
   };
 
   useEffect(() => {
     const keyDownHandler = (event: any) => {
-      console.log("User pressed: ", event.key);
-
       if (event.key === "Enter") {
         event.preventDefault();
-
-        // 👇️ call submit function here
         handleSubmit(event.target.value);
       }
     };
