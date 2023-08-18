@@ -10,17 +10,16 @@ function StatusBox({ currentProfile } : Props) {
   const [statusText, setStatusText] = useState('');
 
   const handleSubmit = (event: any) => {
+    // Gives axios error
     event.preventDefault();
-    // ettuk copilot dise.. ami ektu edit korsi, tarpor kichu bujhi nai-------------------
-    // OK no problem bro, ami eituku korsi
-    axios.post('http://localhost:3000/user/createnewpost', {user_id: currentProfile["user_id"], content: statusText})
+    
+    axios.post('http://localhost:3000/post/createnew', {user_id: currentProfile["user_id"], content: statusText})
     .then(res => {
       console.log('Success:', res.data.msg);
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-    // -----------------------------------------------------------------------------------
 
     // event.target.reset();
   }
@@ -31,7 +30,7 @@ function StatusBox({ currentProfile } : Props) {
         <div className="outer">
             <div className="row">
                 <div className="col-1">
-                  {currentProfile["gender"]==='M'?
+                  {currentProfile["gender"]==='1'?
                     <img
                     src="./src/assets/maleAvatar.png"
                     alt="Profile"

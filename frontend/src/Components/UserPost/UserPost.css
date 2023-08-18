@@ -12,8 +12,16 @@
     padding: none;
     border: none;
     background: none;
-    height: 50px;
+    height: 40px;
     margin-bottom: 25px;
+}
+
+.ProfileStyleSmall {
+    position: relative;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
 
 .user-post {
@@ -52,8 +60,38 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
+    line-height: 1.5;
     max-width: 100%;
     overflow: scroll;
-    margin-bottom: 25px;
+    padding-bottom: 13px;
+}
+
+.bar {
+    width: 100%;
+    height: 1px;
+    background: #555;
+}
+
+.reactionIcon {
+    padding: 10px 0px;
+}
+
+.reactionIcon:hover {
+    border-radius: 10px;
+    background: #8CA1BD;
+}
+
+.count {
+    height: 30px;
+    max-width: 100px;
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 7px 0px 10px 15px;
+    display: inline-block;
+    margin: 0px;
+    vertical-align: middle;
 }

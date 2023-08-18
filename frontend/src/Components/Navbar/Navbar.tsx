@@ -25,6 +25,7 @@ function Navbar( {gender, onSearch}: Props ) {
   const handleSubmit = (String: string) => {
     onSearch!(String);
     console.log(String + " submitted in form ✅");
+    // think about what will happen if the user searches for something
   };
 
   useEffect(() => {
@@ -107,7 +108,7 @@ function Navbar( {gender, onSearch}: Props ) {
             </div>
             <div> {/* Profile */}
               <button className="navbar" onClick={() => console.log("Needs to be iplemented")}>
-                {gender==='M'?
+                {gender==='1'?
                   <img
                   src="./src/assets/maleAvatar.png"
                   alt="Profile"

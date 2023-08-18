@@ -4,11 +4,14 @@ import "./Newsfeed.css";
 import FindPeople from "../FindPeople/FindPeople";
 import { useLocation } from "react-router";
 import StatusBox from "../StatusBox/StatusBox";
+import UserPost from "../UserPost/UserPost";
 import axios from "axios";
 
 function Newsfeed() {
   const location = useLocation();
   const [usrData, setUsrData] = useState([]);
+  const [usrPost, setUsrPost] = useState([]);
+  console.log(location.state)
   const usrSearch = (searchString: string) => {
     if (searchString === "") {
       axios
@@ -40,6 +43,9 @@ function Newsfeed() {
         setUsrData(res.data);
       })
       .catch((err) => console.log(err));
+    axios.get(`http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`).then((res) => {
+      setUsrPost(res.data);
+    });
   }, []);
   return (
     <>
@@ -65,8 +71,9 @@ function Newsfeed() {
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state} />
-
-            {/* <UserPost allDetails={{content : "Hello world\nYEsagggggggggggggggggg ggggggEvEEEEEEEEEEEEEEEHHHHHHHHHHHHHHk gHHH!!!!!!!!!!sjfffffffffff fffffffffffffffffffffffffff", timestamp : "11:00:00", creator : location.state}}/> */}
+            {
+              usrPost.map(item => <UserPost details={{post_id: item.post_id, content : item.content, timestamp : item.time_stamp, creator : {firstname: item.firstname, lastname: item.lastname, gender:item.gender}}} currentProfile={location.state}/>)
+            }
           </div>
 
           <div className="col-3 wrapping_div right_panel">

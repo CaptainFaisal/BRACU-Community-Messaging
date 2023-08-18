@@ -7,16 +7,9 @@ app.use(cors());
 
 
 const userRouter = require('./routes/user');
+const postRouter = require('./routes/post');
 app.use('/user', userRouter);
-app.use('/testDB', (req, res) => {
-    db.query('SELECT * FROM user', (err, result) => {
-        if(err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-})
+app.use('/post', postRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {
