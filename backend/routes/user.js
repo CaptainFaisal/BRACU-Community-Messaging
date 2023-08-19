@@ -3,9 +3,8 @@ const db = require('../connection.js');
 const router = express.Router();
 
 
-router.post('/', (req, res) => {
-    const data = req.body;
-    db.query(`SELECT * FROM users WHERE email = "${data.email}" AND password = "${data.password}"`, (err, result) => {
+router.get('/getuser/:email/:password', (req, res) => {
+    db.query(`SELECT * FROM users WHERE email = "${req.params.email}" AND password = "${req.params.password}"`, (err, result) => {
         if (err) console.log(err)
         else res.send(result);
     })
