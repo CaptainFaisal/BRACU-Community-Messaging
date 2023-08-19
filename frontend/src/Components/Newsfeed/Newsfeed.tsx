@@ -11,7 +11,7 @@ function Newsfeed() {
   const location = useLocation();
   const [usrData, setUsrData] = useState([]);
   const [usrPost, setUsrPost] = useState([]);
-  console.log(location.state)
+  
   const usrSearch = (searchString: string) => {
     if (searchString === "") {
       axios

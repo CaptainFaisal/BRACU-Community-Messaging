@@ -71,7 +71,6 @@ function Navbar( {gender, onSearch}: Props ) {
 
           {/* Search Bar */}
           <div
-            // style={{ justifyContent: "center"}}
             id="navbarSupportedContent"
             className="collapse navbar-collapse"
           >
@@ -79,7 +78,7 @@ function Navbar( {gender, onSearch}: Props ) {
               <input
                 className="form-control me-2"
                 type="search"
-                placeholder="Search.."
+                placeholder="Search Users..."
                 aria-label="Search"
                 id="SearchBar"
                 name="SearchBar"

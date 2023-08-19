@@ -20,7 +20,7 @@ router.post('/new', (req, res) => {
             if (result.length > 0) {
                 res.send({ msg: "Email already exists!" });
             } else {
-                db.query(`INSERT INTO users (firstname, lastname, dob, password, gender, email, phone, time_stamp) VALUES ("${data.firstName}", "${data.lastName}", "${data.dob}", "${data.password}", "${data.gender === "F" ? 2 : data.gender === "M" ? 1 : 3}", "${data.email}", "${data.phone}", CURRENT_TIMESTAMP())`, er => {
+                db.query(`INSERT INTO users (firstname, lastname, dob, password, gender, email, phone, time_stamp) VALUES ("${data.firstName}", "${data.lastName}", "${data.dob}", "${data.password}", "${data.gender}", "${data.email}", "${data.phone}", CURRENT_TIMESTAMP())`, er => {
                     if (er) console.log(er)
                     else res.send({ msg: "success" });
                 })

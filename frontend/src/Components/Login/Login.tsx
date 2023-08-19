@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MiddleBox from "../MiddleBox/MiddleBox";
 import axios from "axios";
@@ -57,7 +57,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [erromsg, setErrormsg] = useState("");
-  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -65,10 +65,10 @@ function Login() {
     axios
       .post("http://localhost:3000/user", { email: email, password: password })
       .then((res) => {
-        console.log(res.data)
-        if(res.data.length==1){
-          navigate("/home", {state: res.data[0]});
-        }else{
+        console.log(res.data);
+        if (res.data.length == 1) {
+          navigate("/home", { state: res.data[0] });
+        } else {
           setErrormsg("Invalid credentials");
         }
       })
@@ -101,37 +101,33 @@ function Login() {
           required
         />
         {/* Forgot password link */}
-        <p style={{color: "red", margin: "auto", textAlign: "center"}}>{erromsg}</p>
+        <p style={{ color: "red", margin: "auto", textAlign: "center" }}>
+          {erromsg}
+        </p>
         <a href="#" className="forgot_password">
           Forgot Password?
         </a>
         {/* Login button */}
-        <button
-          type="submit"
-          className="btn"
-          style={{ ...button_style }}
-        >
+        <button type="submit" className="btn" style={{ ...button_style }}>
           Let's go
         </button>
       </form>
 
-      <form className="login_form" onSubmit={() => navigate("/signup")}>
-        {/* Signup section */}
-        <p className="text-center" style={{ ...signup_text }}>
-          Do not have an account?
-        </p>
-        <button
-          type="submit"
-          className="btn"
-          style={{
-            ...button_style,
-            color: "rgba(42, 95, 172)",
-            background: "rgba(255, 255, 255, 0.60)",
-          }}
-        >
-          Sign Up
-        </button>
-      </form>
+      {/* Signup section */}
+      <p className="text-center" style={{ ...signup_text }}>
+        Do not have an account?
+      </p>
+      <Link to="/signup"
+        type="submit"
+        className="btn"
+        style={{
+          ...button_style,
+          color: "rgba(42, 95, 172)",
+          background: "rgba(255, 255, 255, 0.60)",
+        }}
+      >
+        Sign Up
+      </Link>
     </MiddleBox>
   );
 }
