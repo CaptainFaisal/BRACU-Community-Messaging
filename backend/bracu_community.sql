@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 17, 2023 at 04:21 PM
+-- Generation Time: Aug 19, 2023 at 02:07 PM
 -- Server version: 8.0.34-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.13
 
@@ -128,7 +128,18 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`post_id`, `content`, `time_stamp`, `creator_id`) VALUES
-(1, '\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam velit nulla, condimentum eget risus ac, dictum finibus ipsum. Cras suscipit blandit neque vel tempor. Donec mattis congue metus, in porta sapien semper quis. Aliquam dapibus sollicitudin lacus sed ornare. Nam varius condimentum lobortis. Morbi vel dapibus neque. Aliquam pharetra, nisi ut dapibus fringilla, ipsum libero congue leo, et bibendum augue mauris tincidunt arcu. Fusce vulputate nisl enim, sit amet tempus odio volutpat et. Morbi nec enim nec erat luctus hendrerit. Donec tincidunt neque sit amet risus mattis, et sollicitudin massa euismod. Suspendisse efficitur, metus sagittis convallis auctor, mauris arcu pellentesque erat, sit amet convallis turpis ante sed lorem. Cras malesuada magna dignissim, luctus ipsum vitae, malesuada nibh.', '2023-08-12 14:08:22', 1);
+(1, '\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam velit nulla, condimentum eget risus ac, dictum finibus ipsum. Cras suscipit blandit neque vel tempor. Donec mattis congue metus, in porta sapien semper quis. Aliquam dapibus sollicitudin lacus sed ornare. Nam varius condimentum lobortis. Morbi vel dapibus neque. Aliquam pharetra, nisi ut dapibus fringilla, ipsum libero congue leo, et bibendum augue mauris tincidunt arcu. Fusce vulputate nisl enim, sit amet tempus odio volutpat et. Morbi nec enim nec erat luctus hendrerit. Donec tincidunt neque sit amet risus mattis, et sollicitudin massa euismod. Suspendisse efficitur, metus sagittis convallis auctor, mauris arcu pellentesque erat, sit amet convallis turpis ante sed lorem. Cras malesuada magna dignissim, luctus ipsum vitae, malesuada nibh.', '2023-08-12 14:08:22', 1),
+(2, 'hello world, it\'s beautiful outside. this is post written by user with user_id = 2', '2023-08-17 17:19:39', 2),
+(8, 'lorem ipsum set emet', '2023-08-17 17:29:41', 1),
+(9, 'hello there, it is bracu-community', '2023-08-17 17:40:39', 1),
+(10, 'lorem ipsum set emet', '2023-08-17 21:47:40', 1),
+(11, 'asdfasdf', '2023-08-17 21:49:53', 1),
+(12, 'fname 1', '2023-08-17 22:04:17', 1),
+(13, 'hello world, I am testing', '2023-08-18 03:54:14', 1),
+(14, 'lorem ipsum set emet', '2023-08-18 09:32:21', 13),
+(15, 'hello world, I am user number 13 and I am writing some content of my post.', '2023-08-18 09:33:12', 13),
+(16, 'Hello world, I am posting again', '2023-08-18 12:57:17', 1),
+(17, 'hello there, this is new post', '2023-08-18 16:12:55', 1);
 
 -- --------------------------------------------------------
 
@@ -166,6 +177,15 @@ CREATE TABLE `reacts_post` (
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reacts_post`
+--
+
+INSERT INTO `reacts_post` (`user_id`, `post_id`, `time_stamp`) VALUES
+(1, 10, '2023-08-18 11:04:08'),
+(2, 1, '2023-08-18 11:05:02'),
+(1, 1, '2023-08-18 16:06:04');
+
 -- --------------------------------------------------------
 
 --
@@ -177,6 +197,18 @@ CREATE TABLE `shared` (
   `post_id` int NOT NULL,
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shared`
+--
+
+INSERT INTO `shared` (`user_id`, `post_id`, `time_stamp`) VALUES
+(1, 1, '2023-08-18 12:48:17'),
+(1, 14, '2023-08-18 12:48:36'),
+(2, 14, '2023-08-18 12:49:11'),
+(2, 1, '2023-08-18 12:54:53'),
+(2, 2, '2023-08-18 12:55:00'),
+(2, 8, '2023-08-18 12:55:26');
 
 -- --------------------------------------------------------
 
@@ -216,7 +248,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `dob`, `bio`, `password`, `profile_picture`, `cover_photo`, `gender`, `email`, `phone`, `ver_status`, `time_stamp`) VALUES
-(1, 'fname 1', 'lname 1', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example1@xyz.com', '1234567890', 1, '2023-08-15 06:34:33'),
+(1, 'fname 1', 'lname 1', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '2', 'example1@xyz.com', '1234567890', 1, '2023-08-18 11:10:39'),
 (2, 'fname 2', 'lname 2', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example2@xyz.com', '1234567890', 1, '2023-08-17 08:16:42'),
 (3, 'fname 3', 'lname 3', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example3@xyz.com', '1234567890', 1, '2023-08-17 08:16:53'),
 (4, 'fname 4', 'lname 4', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example4@xyz.com', '1234567890', 1, '2023-08-17 08:17:05'),
@@ -347,7 +379,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
