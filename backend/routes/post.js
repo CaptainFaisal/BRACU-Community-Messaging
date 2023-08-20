@@ -22,6 +22,26 @@ router.post('/createcomment', (req, res) => {
         }
     })
 })
+router.post('/likecomment', (req, res) => {
+    const data = req.body;
+    db.query(`INSERT INTO reacts_comment (comment_id, user_id) VALUES (${data.comment_id}, ${data.user_id})`, err => {
+        if (err) {
+            res.send({ msg: "error" });
+        } else {
+            res.send({ msg: "success" });
+        }
+    })
+})
+router.post('/unlikecomment', (req, res) => {
+    const data = req.body;
+    db.query(`DELETE FROM reacts_comment WHERE comment_id = ${data.comment_id} AND user_id = ${data.user_id}`, err => {
+        if (err) {
+            res.send({ msg: "error" });
+        } else {
+            res.send({ msg: "success" });
+        }
+    })
+})
 router.post('/like', (req, res) => {
     const data = req.body;
     db.query(`INSERT INTO reacts_post (post_id, user_id) VALUES (${data.post_id}, ${data.user_id})`, err => {
@@ -45,6 +65,16 @@ router.post('/unlike', (req, res) => {
 router.post('/share', (req, res) => {
     const data = req.body;
     db.query(`INSERT INTO shared (user_id, post_id) VALUES ("${data.user_id}", ${data.post_id})`, err => {
+        if (err) {
+            res.send({ msg: "error" });
+        } else {
+            res.send({ msg: "success" });
+        }
+    })
+})
+router.post('/unshare', (req, res) => {
+    const data = req.body;
+    db.query(`DELETE FROM shared WHERE user_id=${data.user_id} AND post_id=${data.post_id};`, err => {
         if (err) {
             res.send({ msg: "error" });
         } else {
@@ -94,11 +124,27 @@ router.get('/likecount/:post_id', (req, res) => {
     });
 });
 router.get('/getallcomments/:post_id', (req, res) => {
-    db.query(`SELECT firstname, lastname, gender, content, c.time_stamp 
+    db.query(`SELECT firstname, lastname, gender, content, c.time_stamp, comment_id 
 FROM comment c
 INNER JOIN users u
 ON c.commenter_id = u.user_id
 WHERE c.post_id=${req.params.post_id};`, (err, result) => {
+        if (err) console.log(err)
+        res.send(result);
+    });
+})
+router.get('/iscommentliked/:comment_id/:user_id', (req, res) => {
+    db.query(`SELECT * FROM reacts_comment WHERE user_id=${req.params.user_id} AND comment_id=${req.params.comment_id}`, (err, result) => {
+        if (err) {
+            res.send({ msg: "error" });
+            console.log(err)
+        } else {
+            res.send(result);
+        }
+    })
+})
+router.get('/getcommentlikes/:comment_id', (req, res) => {
+    db.query(`SELECT COUNT(*) AS likecount FROM reacts_comment WHERE comment_id = ${req.params.comment_id}`, (err, result) => {
         if (err) console.log(err)
         res.send(result);
     });

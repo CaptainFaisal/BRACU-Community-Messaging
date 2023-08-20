@@ -12,6 +12,7 @@ function Newsfeed() {
   const [usrData, setUsrData] = useState([]);
   const [usrPost, setUsrPost] = useState([]);
   const [searchBarText, setSearchBarText] = useState("");
+  const [statusText, setStatusText] = useState("");
 
   const usrSearch = (searchStr: string) => {
     if (searchStr === "") {
@@ -38,7 +39,15 @@ function Newsfeed() {
   useEffect(() => {
     usrSearch(searchBarText);
   }, [searchBarText]);
-
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`
+      )
+      .then((res) => {
+        setUsrPost(res.data);
+      });
+  }, [statusText]);
   useEffect(() => {
     axios
       .get(
@@ -48,13 +57,6 @@ function Newsfeed() {
         setUsrData(res.data);
       })
       .catch((err) => console.log(err));
-    axios
-      .get(
-        `http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`
-      )
-      .then((res) => {
-        setUsrPost(res.data);
-      });
   }, []);
 
   return (
@@ -85,7 +87,7 @@ function Newsfeed() {
 
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
-            <StatusBox currentProfile={location.state} />
+            <StatusBox currentProfile={location.state} statusText={statusText} setStatusText={setStatusText}/>
 
             {usrPost.map((item, index) => (
               <UserPost

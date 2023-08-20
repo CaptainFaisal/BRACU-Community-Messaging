@@ -4,10 +4,11 @@ import { useState } from "react";
 
 interface Props {
   currentProfile: object;
+  statusText: string;
+  setStatusText: Function;
 }
 
-function StatusBox({ currentProfile }: Props) {
-  const [statusText, setStatusText] = useState("");
+function StatusBox({ currentProfile, statusText, setStatusText }: Props) {
 
   const submitStatus = (event) => {
     event.preventDefault();
@@ -18,12 +19,12 @@ function StatusBox({ currentProfile }: Props) {
       })
       .then((res) => {
         console.log("Success:", res.data.msg);
+        setStatusText("");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
-    setStatusText("");
     event.target.reset();
   };
 
