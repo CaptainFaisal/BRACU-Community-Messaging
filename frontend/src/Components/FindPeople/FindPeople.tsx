@@ -1,3 +1,5 @@
+// need to link to profile page
+
 import { useEffect, useState } from "react";
 import "./FindPeople.css"
 import axios from "axios";

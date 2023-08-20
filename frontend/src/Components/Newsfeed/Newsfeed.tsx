@@ -11,9 +11,10 @@ function Newsfeed() {
   const location = useLocation();
   const [usrData, setUsrData] = useState([]);
   const [usrPost, setUsrPost] = useState([]);
-  console.log(location.state)
-  const usrSearch = (searchString: string) => {
-    if (searchString === "") {
+  const [searchBarText, setSearchBarText] = useState("");
+
+  const usrSearch = (searchStr: string) => {
+    if (searchStr === "") {
       axios
         .get(
           `http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`
@@ -23,17 +24,21 @@ function Newsfeed() {
         })
         .catch((err) => console.log(err));
     } else {
-      axios.get(`http://localhost:3000/user/getallusers`).then((res) => {
-        const searchResult = res.data.filter((item: any) => {
-          return (
-            item.firstname.toLowerCase().includes(searchString.toLowerCase()) ||
-            item.lastname.toLowerCase().includes(searchString.toLowerCase())
-          );
-        });
-        setUsrData(searchResult);
-      });
+      axios
+        .get(
+          `http://localhost:3000/user/getmatchedusers/50/${location.state.user_id}/${searchStr}`
+        )
+        .then((res) => {
+          setUsrData(res.data);
+        })
+        .catch((err) => console.log(err));
     }
   };
+
+  useEffect(() => {
+    usrSearch(searchBarText);
+  }, [searchBarText]);
+
   useEffect(() => {
     axios
       .get(
@@ -43,14 +48,24 @@ function Newsfeed() {
         setUsrData(res.data);
       })
       .catch((err) => console.log(err));
-    axios.get(`http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`).then((res) => {
-      setUsrPost(res.data);
-    });
+    axios
+      .get(
+        `http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`
+      )
+      .then((res) => {
+        setUsrPost(res.data);
+      });
   }, []);
+
   return (
     <>
       <div className="external_wrapper">
-        <Navbar gender={location.state.gender} onSearch={usrSearch} />
+        <Navbar
+          gender={location.state.gender}
+          onSearch={usrSearch}
+          setSearchBarText={setSearchBarText}
+          searchBarText={searchBarText}
+        />
         <div className="row" style={{ margin: 0 }}>
           <div className="col-3 wrapping_div left_panel">
             {/* Left panel. Find people option will be here */}
@@ -71,9 +86,23 @@ function Newsfeed() {
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
             <StatusBox currentProfile={location.state} />
-            {
-              usrPost.map(item => <UserPost details={{post_id: item.post_id, content : item.content, timestamp : item.time_stamp, creator : {firstname: item.firstname, lastname: item.lastname, gender:item.gender}}} currentProfile={location.state}/>)
-            }
+
+            {usrPost.map((item, index) => (
+              <UserPost
+                key={index}
+                details={{
+                  post_id: item.post_id,
+                  content: item.content,
+                  timestamp: item.time_stamp,
+                  creator: {
+                    firstname: item.firstname,
+                    lastname: item.lastname,
+                    gender: item.gender,
+                  },
+                }}
+                currentProfile={location.state}
+              />
+            ))}
           </div>
 
           <div className="col-3 wrapping_div right_panel">

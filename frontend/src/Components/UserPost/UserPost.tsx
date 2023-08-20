@@ -1,3 +1,6 @@
+// need to work on comment section
+// need to link to profile page
+
 import "./UserPost.css";
 import { useState, useEffect } from "react";
 import Comment from "../Comment/Comment";
@@ -13,8 +16,17 @@ function UserPost({ details, currentProfile }: Props) {
   const [commentText, setCommentText] = useState("");
   const [likeCount, setLikeCount] = useState(0);
   const [shareCount, setShareCount] = useState(0);
-
-  let allComments = []; // get all comments from database
+  const [allComments, setAllComments] = useState([]);
+  const [butttonClick, setButtonClick] = useState(false);
+  console.log(currentProfile)
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/post/getallcomments/${details["post_id"]}`)
+      .then((res) => {
+        setAllComments(res.data);
+      })
+      .catch((err) => console.log(err));
+    }, [butttonClick]);
   useEffect(() => {
     axios
       .get(`http://localhost:3000/post/likecount/${details["post_id"]}`)
@@ -37,6 +49,7 @@ function UserPost({ details, currentProfile }: Props) {
       })
       .catch((err) => console.log(err));
   }, []);
+
   const handleReaction = () => {
     // if likeGiven is true, increase likeCount by 1 and vice versa
     axios
@@ -54,9 +67,7 @@ function UserPost({ details, currentProfile }: Props) {
     setLikeGiven(!likeGiven);
   };
 
-  const handleComment = () => {
-    // focus on the comment box when comment is clicked
-  };
+  const handleComment = (evt) => {};
 
   const handleShare = () => {
     // if clicked, include the post in currentProfile's sharedPosts
@@ -65,7 +76,7 @@ function UserPost({ details, currentProfile }: Props) {
         `http://localhost:3000/post/isshared/${details["post_id"]}/${currentProfile["user_id"]}`
       )
       .then((r) => {
-        if (r.data.length !==0) return;
+        if (r.data.length !== 0) return;
         axios
           .post(`http://localhost:3000/post/share`, {
             user_id: currentProfile["user_id"],
@@ -82,12 +93,22 @@ function UserPost({ details, currentProfile }: Props) {
       .catch((err) => console.log(err));
   };
 
-  const handleSubmit = (event: any) => {
+  const commentSubmit = (event: any) => {
     event.preventDefault();
-    // submit the comment
-    // increase the commentCount by 1
-    console.log("Comment submitted  " + commentText);
+    axios
+      .post("http://localhost:3000/post/createcomment", {
+        content: commentText,
+        user_id: currentProfile["user_id"],
+        post_id: details["post_id"],
+      })
+      .then((res) => {
+        console.log("Success:", res.data.msg);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     event.target.reset();
+    setCommentText("");
   };
 
   return (
@@ -123,11 +144,18 @@ function UserPost({ details, currentProfile }: Props) {
             <button className="creator_name nameButton">
               {details.creator["firstname"] + " " + details.creator["lastname"]}
             </button>
-            <p className="timestamp_text">{details.timestamp}</p>
+            <p className="timestamp_text">
+              {details.timestamp.slice(8, 10)}-{details.timestamp.slice(5, 7)}-
+              {details.timestamp.slice(0, 4)}, {details.timestamp.slice(11, 16)}
+            </p>
           </div>
 
           {/* Post content */}
-          <div className="col postContent">{details.content}</div>
+          <div className="col postContent">
+            {details.content.split("\n").map((para, idx) => (
+              <p key={idx}>{para}</p>
+            ))}
+          </div>
 
           {/* Like, Comment, Share */}
           <div className="col-12">
@@ -156,7 +184,7 @@ function UserPost({ details, currentProfile }: Props) {
 
               <a
                 className="col reactionIcon"
-                onClick={() => handleComment}
+                onClick={(e) => handleComment(e)}
                 href="#commentText"
               >
                 <svg
@@ -196,7 +224,7 @@ function UserPost({ details, currentProfile }: Props) {
 
           {/* Posting a new comment */}
           <form
-            onSubmit={handleSubmit}
+            onSubmit={commentSubmit}
             className="row"
             style={{ paddingRight: "0px" }}
           >
@@ -232,7 +260,7 @@ function UserPost({ details, currentProfile }: Props) {
             </div>
 
             <div className="col-1">
-              <button type="submit">
+              <button type="submit" onSubmit={() => setButtonClick(!butttonClick)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"

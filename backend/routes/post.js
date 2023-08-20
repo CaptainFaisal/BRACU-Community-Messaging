@@ -4,7 +4,17 @@ const router = express.Router();
 
 router.post('/createnew', (req, res) => {
     const data = req.body;
-    db.query(`INSERT INTO posts (content, creator_id) VALUES ("${data.content}", ${data.user_id})`, err => {
+    db.query(`INSERT INTO posts (content, creator_id) VALUES ("${data.content}", ${data.user_id});`, err => {
+        if (err) {
+            res.send({ msg: "error" });
+        } else {
+            res.send({ msg: "success" });
+        }
+    })
+})
+router.post('/createcomment', (req, res) => {
+    const data = req.body;
+    db.query(`INSERT INTO comment (content, commenter_id, post_id) VALUES ("${data.content}", ${data.user_id}, ${data.post_id})`, (err, result) => {
         if (err) {
             res.send({ msg: "error" });
         } else {
@@ -83,4 +93,16 @@ router.get('/likecount/:post_id', (req, res) => {
         res.send(result[0]);
     });
 });
+router.get('/getallcomments/:post_id', (req, res) => {
+    db.query(`SELECT firstname, lastname, gender, content, c.time_stamp 
+FROM comment c
+INNER JOIN users u
+ON c.commenter_id = u.user_id
+WHERE c.post_id=${req.params.post_id};`, (err, result) => {
+        if (err) console.log(err)
+        res.send(result);
+    });
+})
+
+
 module.exports = router;

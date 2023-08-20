@@ -58,8 +58,8 @@ function Signup() {
   };
 
   const each_row = {
-    margin: "20px auto",
-  }
+    margin: "2vh auto",
+  };
 
   const navigate = useNavigate();
   const [fName, setFName] = useState("");
@@ -75,49 +75,54 @@ function Signup() {
   const [errorMsg, setErrormsg] = useState("");
   const [blurOccured, setBlurOccured] = useState(false);
 
-
   const checkPassword = () => {
-    if(password !== confirmPassword){
-      setPwdErrorMsg("Password mismatch")
+    if (password !== confirmPassword) {
+      setPwdErrorMsg("Password mismatch");
       return false;
-    }else{
-      setPwdErrorMsg("")
+    } else {
+      // Password matched
       return true;
     }
-  }
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(!checkPassword()) return;
-    if(!formCheck){
+    if (!checkPassword()) return;
+    if (!formCheck) {
       setErrormsg("Please agree to the terms and conditions");
       return;
     }
 
     axios
-    .post("http://localhost:3000/user/new", {
-    firstName: fName,
-    lastName: lName,
-    email: email,
-    dob: dob,
-    phone: phone,
-    gender: gender,
-    password: password,
-    formCheck: formCheck,
-  })
-    .then((res) => {
-      if(res.data.msg==="success"){
-        navigate("/login");
-      }else{
-        setErrormsg(res.data.msg);
-      }
-    })
-    .catch((err) => console.log(err));
+      .post("http://localhost:3000/user/new", {
+        firstName: fName,
+        lastName: lName,
+        email: email,
+        dob: dob,
+        phone: phone,
+        gender: gender,
+        password: password,
+        formCheck: formCheck,
+      })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          navigate("/login");
+        } else {
+          setErrormsg(res.data.msg);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <MiddleBoxRaw blur="10px">
       <form className="signup_form" onSubmit={handleSubmit}>
-        <p className="text-center section_text" style={{marginBottom: "30px", ...each_row}}>Sign Up</p>
+        <p
+          className="text-center section_text"
+          style={{ marginBottom: "30px", ...each_row }}
+        >
+          Sign Up
+        </p>
 
         <div className="row" style={each_row}>
           {/* First name */}
@@ -204,16 +209,40 @@ function Signup() {
             </label>
             <div className="row" style={{ ...check_box, marginTop: "5px" }}>
               <div className="form-check form-check-inline col">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Male" onChange={() => setGender("1")}/>
-                <label className="form-check-label" htmlFor="Male">Male</label>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="Male"
+                  onChange={() => setGender("1")}
+                />
+                <label className="form-check-label" htmlFor="Male">
+                  Male
+                </label>
               </div>
               <div className="form-check form-check-inline col">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Female" onChange={() => setGender("2")}/>
-                <label className="form-check-label" htmlFor="Female">Female</label>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="Female"
+                  onChange={() => setGender("2")}
+                />
+                <label className="form-check-label" htmlFor="Female">
+                  Female
+                </label>
               </div>
               <div className="form-check form-check-inline col">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="Others" onChange={() => setGender("3")}/>
-                <label className="form-check-label" htmlFor="Others">Other</label>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="Others"
+                  onChange={() => setGender("3")}
+                />
+                <label className="form-check-label" htmlFor="Others">
+                  Other
+                </label>
               </div>
             </div>
           </div>
@@ -250,22 +279,36 @@ function Signup() {
               onChange={(event) => setConfirmPassword(event.target.value)}
               onBlur={() => {
                 setBlurOccured(true);
-                checkPassword()
+                checkPassword();
               }}
               onKeyUp={() => {
-                if(blurOccured){
-                  checkPassword()
+                if (blurOccured) {
+                  checkPassword();
                 }
               }}
               required
             />
-            <p style={{color:"red", textAlign: "center", marginBottom: "-20px"}}>{pwdErrorMsg}</p>
+            <p
+              style={{
+                color: "red",
+                textAlign: "center",
+                marginBottom: "-20px",
+              }}
+            >
+              {pwdErrorMsg}
+            </p>
           </div>
         </div>
 
         {/* Terms and conditions */}
-        <div className="row form_confirmation" style={{margin: "0 auto", ...each_row}}>
-          <div className="form-check col" style={{margin: "0 auto", marginTop: "20px"}}>
+        <div
+          className="row form_confirmation"
+          style={{ margin: "0 auto", ...each_row }}
+        >
+          <div
+            className="form-check col"
+            style={{ margin: "0 auto", marginTop: "20px" }}
+          >
             <input
               type="checkbox"
               className="form-check-input"
@@ -281,7 +324,7 @@ function Signup() {
             >
               I agree to the terms and conditions
             </label>
-            <p style={{color: "red"}}>{errorMsg}</p>
+            <p style={{ color: "red" }}>{errorMsg}</p>
           </div>
         </div>
 
