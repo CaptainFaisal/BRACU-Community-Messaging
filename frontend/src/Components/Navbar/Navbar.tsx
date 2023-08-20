@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router";
 
 interface Props {
   gender?: string;
   onSearch?: (searchString: string) => void;
+  searchBarText?: string;
+  setSearchBarText?: (searchString: string) => void;
 }
 
-function Navbar( {gender, onSearch}: Props ) {
+function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -18,30 +20,28 @@ function Navbar( {gender, onSearch}: Props ) {
     margin: "13px 0px 13px 0px",
   };
 
-  const [SearchBar, setSearchBar] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleSubmit = (String: string) => {
-    onSearch!(String);
-    console.log(String + " submitted in form ✅");
-    // think about what will happen if the user searches for something
-  };
+  // const handleSubmit = (searchStr : string) => {
+  //   onSearch!(searchStr);
+  //   console.log(searchStr + " submitted in form ✅");
+  // };
 
-  useEffect(() => {
-    const keyDownHandler = (event: any) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        handleSubmit(event.target.value);
-      }
-    };
+  // useEffect(() => {
+  //   const keyDownHandler = (event: any) => {
+  //     if (event.key === "Enter") {
+  //       event.preventDefault();
+  //       handleSubmit(event.target.value);
+  //     }
+  //   };
 
-    document.addEventListener("keydown", keyDownHandler);
+  //   document.addEventListener("keydown", keyDownHandler);
 
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("keydown", keyDownHandler);
+  //   };
+  // }, [searchBarText]);
 
   return (
     <>
@@ -74,20 +74,19 @@ function Navbar( {gender, onSearch}: Props ) {
             id="navbarSupportedContent"
             className="collapse navbar-collapse"
           >
-            <form role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search Users..."
-                aria-label="Search"
-                id="SearchBar"
-                name="SearchBar"
-                value={SearchBar}
-                onChange={(event) => setSearchBar(event.target.value)}
-                style={SearchBarStyle}
-              />
+            {/* <form role="search"> */}
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search Users..."
+              aria-label="Search"
+              id="searchBarText"
+              name="searchBarText"
+              onChange={(event) => setSearchBarText!(event.target.value)}
+              style={SearchBarStyle}
+            />
               {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
-            </form>
+            {/* </form> */}
           </div>
 
           {/* Profile and Chat*/}

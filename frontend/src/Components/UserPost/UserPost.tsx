@@ -1,4 +1,5 @@
-// comment er kaj korte hobe
+// need to work on comment section
+// need to link to profile page
 
 import "./UserPost.css";
 import { useState, useEffect } from "react";
@@ -15,8 +16,8 @@ function UserPost({ details, currentProfile }: Props) {
   const [commentText, setCommentText] = useState("");
   const [likeCount, setLikeCount] = useState(0);
   const [shareCount, setShareCount] = useState(0);
+  const [allComments, setAllComments] = useState([]);
 
-  let allComments = []; // get all comments from database
   useEffect(() => {
     axios
       .get(`http://localhost:3000/post/likecount/${details["post_id"]}`)
@@ -39,6 +40,7 @@ function UserPost({ details, currentProfile }: Props) {
       })
       .catch((err) => console.log(err));
   }, []);
+  
   const handleReaction = () => {
     // if likeGiven is true, increase likeCount by 1 and vice versa
     axios
@@ -84,7 +86,7 @@ function UserPost({ details, currentProfile }: Props) {
       .catch((err) => console.log(err));
   };
 
-  const handleSubmit = (event: any) => {
+  const commentSubmit = (event: any) => {
     event.preventDefault();
     // submit the comment
     // increase the commentCount by 1
@@ -125,7 +127,7 @@ function UserPost({ details, currentProfile }: Props) {
             <button className="creator_name nameButton">
               {details.creator["firstname"] + " " + details.creator["lastname"]}
             </button>
-            <p className="timestamp_text">{details.timestamp}</p>
+            <p className="timestamp_text">{details.timestamp.slice(8, 10)}-{details.timestamp.slice(5, 7)}-{details.timestamp.slice(0, 4)}, {details.timestamp.slice(11, 16)}</p>
           </div>
 
           {/* Post content */}
@@ -198,7 +200,7 @@ function UserPost({ details, currentProfile }: Props) {
 
           {/* Posting a new comment */}
           <form
-            onSubmit={handleSubmit}
+            onSubmit={commentSubmit}
             className="row"
             style={{ paddingRight: "0px" }}
           >
