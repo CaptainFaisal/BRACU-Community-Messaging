@@ -1,6 +1,5 @@
 import axios from "axios";
 import "./StatusBox.css";
-import { useState } from "react";
 
 interface Props {
   currentProfile: object;

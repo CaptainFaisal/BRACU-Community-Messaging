@@ -19,7 +19,6 @@ function UserPost({ details, currentProfile }: Props) {
   const [shareCount, setShareCount] = useState(0);
   const [allComments, setAllComments] = useState([]);
   const [commentCnt, setCommentCnt] = useState(0);
-  const [loadComment, setLoadComment] = useState(false); // Just for triggering useEffect
   useEffect(() => {
     axios
       .get(`http://localhost:3000/post/getallcomments/${details["post_id"]}`)
@@ -28,7 +27,7 @@ function UserPost({ details, currentProfile }: Props) {
         setCommentCnt(res.data.length);
       })
       .catch((err) => console.log(err));
-  }, [loadComment]);
+  }, [commentText]);
   useEffect(() => {
     axios
       .get(`http://localhost:3000/post/likecount/${details["post_id"]}`)
@@ -112,7 +111,8 @@ function UserPost({ details, currentProfile }: Props) {
       })
       .then((res) => {
         console.log("Success:", res.data.msg);
-        setLoadComment(!loadComment);
+        setCommentText("");
+        // setLoadComment(!loadComment);
       })
       .catch((error) => {
         console.error("Error:", error);
