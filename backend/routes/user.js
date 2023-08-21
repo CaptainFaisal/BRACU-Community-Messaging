@@ -2,14 +2,6 @@ const express = require('express');
 const db = require('../connection.js');
 const router = express.Router();
 
-
-router.get('/getuser/:email/:password', (req, res) => {
-    db.query(`SELECT * FROM users WHERE email = "${req.params.email}" AND password = "${req.params.password}"`, (err, result) => {
-        if (err) console.log(err)
-        else res.send(result);
-    })
-})
-
 router.post('/new', (req, res) => {
   const data = req.body;
   db.query(`SELECT * FROM users WHERE email = "${data.email}"`, (err, result) => {
@@ -26,7 +18,14 @@ router.post('/new', (req, res) => {
       }
     }
   })
-})
+});
+
+router.get('/getuser/:email/:password', (req, res) => {
+    db.query(`SELECT * FROM users WHERE email = "${req.params.email}" AND password = "${req.params.password}"`, (err, result) => {
+        if (err) console.log(err)
+        else res.send(result);
+    })
+});
 
 router.get('/getmatchedusers/:usercount/:user_id/:txt', (req, res) => {
   db.query(`SELECT user_id, gender, firstname, lastname, email FROM users WHERE user_id != ${req.params.user_id} AND (firstname LIKE "%${req.params.txt}%" OR lastname LIKE "%${req.params.txt}%") ORDER BY RAND() LIMIT ${req.params.usercount};`, (err, result) => {
@@ -40,7 +39,7 @@ router.get('/getrandomusers/:usercount/:user_id', (req, res) => {
       if (err) console.log(err)
       res.send(result);
   });
-})
+});
 
 router.get('/getmutualcount/:user1/:user2', (req, res) => {
     db.query(`SELECT COUNT(*) AS mutual FROM
@@ -54,6 +53,7 @@ on t1.received_id = t2.received_id;`, (err, result) => {
         if (err) console.log(err)
         res.send(result[0]);
     });
-})
+});
+
 
 module.exports = router;

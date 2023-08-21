@@ -21,7 +21,7 @@ function UserPost({ details, currentProfile }: Props) {
   const [commentCnt, setCommentCnt] = useState(0);
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/post/getallcomments/${details["post_id"]}`)
+      .get(`http://localhost:3000/comment/getall/${details["post_id"]}`)
       .then((res) => {
         setAllComments(res.data);
         setCommentCnt(res.data.length);
@@ -104,7 +104,7 @@ function UserPost({ details, currentProfile }: Props) {
   const commentSubmit = (event: any) => {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/post/createcomment", {
+      .post("http://localhost:3000/comment/create", {
         content: commentText,
         user_id: currentProfile["user_id"],
         post_id: details["post_id"],
@@ -112,7 +112,6 @@ function UserPost({ details, currentProfile }: Props) {
       .then((res) => {
         console.log("Success:", res.data.msg);
         setCommentText("");
-        // setLoadComment(!loadComment);
       })
       .catch((error) => {
         console.error("Error:", error);

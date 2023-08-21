@@ -15,8 +15,8 @@ function Comment({ allDetails, currentProfile }: Props) {
   const handleReaction = () => {
     axios
       .post(
-        `http://localhost:3000/post/${
-          likeGiven ? "unlikecomment" : "likecomment"
+        `http://localhost:3000/comment/${
+          likeGiven ? "unlike" : "like"
         }`,
         { comment_id: allDetails.comment_id, user_id: currentProfile.user_id }
       )
@@ -30,7 +30,7 @@ function Comment({ allDetails, currentProfile }: Props) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3000/post/getcommentlikes/${allDetails.comment_id}`
+        `http://localhost:3000/comment/likecount/${allDetails.comment_id}`
       )
       .then((res) => {
         setLikeCount(res.data[0].likecount);
@@ -39,7 +39,7 @@ function Comment({ allDetails, currentProfile }: Props) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3000/post/iscommentliked/${allDetails.comment_id}/${currentProfile.user_id}`
+        `http://localhost:3000/comment/isliked/${allDetails.comment_id}/${currentProfile.user_id}`
       )
       .then((res) => {
         if (res.data.length == 1) {
