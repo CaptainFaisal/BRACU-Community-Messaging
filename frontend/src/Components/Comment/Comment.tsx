@@ -8,7 +8,6 @@ interface Props {
 }
 
 function Comment({ allDetails, currentProfile }: Props) {
-  const [creator, setCreator] = useState(false);
   const [likeGiven, setLikeGiven] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
