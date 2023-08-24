@@ -13,7 +13,8 @@ router.post('/new', (req, res) => {
       } else {
           db.query(`INSERT INTO users (firstname, lastname, dob, password, gender, email, phone, time_stamp) VALUES ("${data.firstName}", "${data.lastName}", "${data.dob}", "${data.password}", "${data.gender}", "${data.email}", "${data.phone}", CURRENT_TIMESTAMP())`, er => {
             if (er) console.log(er)
-            else res.send({ msg: "success" });
+
+            else res.send({ msg: "success", code: randomCode });
           })
       }
     }
@@ -55,5 +56,10 @@ on t1.received_id = t2.received_id;`, (err, result) => {
     });
 });
 
-
+router.get('/getfriendcount/:user_id', (req, res) => {
+    db.query(`SELECT COUNT(*) AS friendcount FROM friend WHERE user_id = ${req.params.user_id} OR received_id = ${req.params.user_id}`, (err, result) => {
+        if (err) console.log(err)
+        res.send(result[0]);
+    })
+    })
 module.exports = router;

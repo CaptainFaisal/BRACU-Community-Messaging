@@ -3,13 +3,13 @@ import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router";
 
 interface Props {
-  gender?: string;
+  currentProfile?: object;
   onSearch?: (searchString: string) => void;
   searchBarText?: string;
   setSearchBarText?: (searchString: string) => void;
 }
 
-function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
+function Navbar( {currentProfile = location.state.currentProfile, onSearch, searchBarText, setSearchBarText}: Props ) {
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -105,8 +105,8 @@ function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
               </button>
             </div>
             <div> {/* Profile */}
-              <button className="navbar" onClick={() => console.log("Needs to be iplemented")}>
-                {gender==='1'?
+              <button className="navbar" onClick={() => navigate('/profile', {state: {currentProfile: currentProfile, targetProfile: currentProfile}})}>
+                {currentProfile.gender==='1'?
                   <img
                   src="./src/assets/maleAvatar.png"
                   alt="Profile"

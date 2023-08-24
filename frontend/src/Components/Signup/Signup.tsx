@@ -106,7 +106,8 @@ function Signup() {
       })
       .then((res) => {
         if (res.data.msg === "success") {
-          navigate("/login");
+          // navigate("/verify");
+          navigate("/login")
         } else {
           setErrormsg(res.data.msg);
         }

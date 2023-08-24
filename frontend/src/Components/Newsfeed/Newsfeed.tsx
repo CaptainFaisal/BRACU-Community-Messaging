@@ -63,7 +63,7 @@ function Newsfeed() {
     <>
       <div className="external_wrapper">
         <Navbar
-          gender={location.state.gender}
+          currentProfile={location.state}
           onSearch={usrSearch}
           setSearchBarText={setSearchBarText}
           searchBarText={searchBarText}
