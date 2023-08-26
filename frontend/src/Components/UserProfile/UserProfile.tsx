@@ -12,7 +12,15 @@ function UserProfile() {
   const [mutualFriend, setMutualFriend] = useState(0);
   const [usrPost, setUsrPost] = useState([]);
   const [statusText, setStatusText] = useState("");
-  const handleConnect = () => {};
+  const handleConnect = (sent_id: Number, received_id: Number) => {
+    axios.post(`http://localhost:3000/user/sendrequest`, {user_id: sent_id, received_id: received_id})
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  };
   useEffect(() => {
     axios
       .get(
@@ -95,7 +103,8 @@ function UserProfile() {
                 </div>
                 <div className="counter">{friendCount} friends</div>
                 <div className="counter">{getMutualText()}</div>
-                <button id="connect-btn" onClick={() => handleConnect(location.state.currentProfile, location.state.targetProfile)}>Connect</button>
+                <button id="connect-btn" onClick={() => handleConnect(location.state.currentProfile.user_id, location.state.targetProfile.user_id)}>Connect</button>
+
                 {/* <button id="message-btn">Message</button> */}
               </div>
             </div>

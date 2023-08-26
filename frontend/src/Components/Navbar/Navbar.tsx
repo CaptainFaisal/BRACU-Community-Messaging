@@ -52,7 +52,7 @@ function Navbar( {currentProfile = location.state.currentProfile, onSearch, sear
       >
         <div className="container-fluid">
           {/* Logo */}
-          <button className="navbar-brand" style={{marginRight: "25%"}} onClick={() => navigate("/home", {state: location.state})}>
+          <button className="navbar-brand" style={{marginRight: "25%"}} onClick={() => navigate("/home", {state: location.state.currentProfile})}>
             <img src="./src/assets/Logo.png" alt="Logo" />
           </button>
 

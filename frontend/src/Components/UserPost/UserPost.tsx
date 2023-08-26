@@ -1,8 +1,6 @@
-// need to work on comment section
-// need to link to profile page
-
 import "./UserPost.css";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from 'react-router';
 import Comment from "../Comment/Comment";
 import axios from "axios";
 
@@ -19,7 +17,11 @@ function UserPost({ details, currentProfile }: Props) {
   const [shareCount, setShareCount] = useState(0);
   const [allComments, setAllComments] = useState([]);
   const [commentCnt, setCommentCnt] = useState(0);
+  const navigate = useNavigate();
   const commentRef = useRef(null);
+  const handleClick = () => {
+    navigate("/profile", { state: { currentProfile: currentProfile, targetProfile: currentProfile } })
+  }
   useEffect(() => {
     axios
       .get(`http://localhost:3000/comment/getall/${details["post_id"]}`)
@@ -153,7 +155,7 @@ function UserPost({ details, currentProfile }: Props) {
             style={{ marginLeft: "10px", marginRight: "-10px" }}
             onClick={() => console.log("Name")}
           >
-            <button className="creator_name nameButton">
+            <button className="creator_name nameButton" onClick={() => handleClick()}>
               {details.creator["firstname"] + " " + details.creator["lastname"]}
             </button>
             <p className="timestamp_text">
