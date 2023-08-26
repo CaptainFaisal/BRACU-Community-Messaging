@@ -21,19 +21,21 @@
   margin-top: -200px;
   margin-left: 20px;
   height: fit-content;
+  padding: 70px 0 70px 0;
   flex-shrink: 0;
-  fill: linear-gradient(
+  background: linear-gradient(
     180deg,
-    rgba(15, 35, 255, 0.8) 0%,
-    rgba(0, 59, 137, 0.8) 100%
+    rgb(165, 184, 209, 0.7) 0%,
+    rgba(255, 255, 255, 0.1) 60%
   );
   backdrop-filter: blur(12.5px);
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
 }
 .profile-photo {
   width: 250px;
   height: 250px;
-  margin: 45px auto;
+  margin: 0 auto;
   border-radius: 50%;
 }
 #profile-container {
@@ -42,6 +44,7 @@
 }
 #name {
   color: #000;
+  margin-top: 20px;
   font-family: Inter;
   font-size: 35px;
   font-style: normal;
@@ -58,7 +61,9 @@
     font-weight: 700;
     line-height: normal;
 }
-
+#status-container{
+  margin-top: 20px;
+}
 #connect-btn{
   display: block;
   margin: auto;

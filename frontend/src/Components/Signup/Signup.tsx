@@ -107,6 +107,7 @@ function Signup() {
       .then((res) => {
         if (res.data.msg === "success") {
           // navigate("/verify");
+          console.log("success, redirecting to login page in 3 second")
           navigate("/login")
         } else {
           setErrormsg(res.data.msg);

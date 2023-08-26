@@ -14,7 +14,7 @@ router.post('/new', (req, res) => {
           db.query(`INSERT INTO users (firstname, lastname, dob, password, gender, email, phone, time_stamp) VALUES ("${data.firstName}", "${data.lastName}", "${data.dob}", "${data.password}", "${data.gender}", "${data.email}", "${data.phone}", CURRENT_TIMESTAMP())`, er => {
             if (er) console.log(er)
 
-            else res.send({ msg: "success", code: randomCode });
+            else res.send({ msg: "success"});
           })
       }
     }

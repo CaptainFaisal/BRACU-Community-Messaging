@@ -10,7 +10,6 @@ interface Props {
 function Comment({ allDetails, currentProfile }: Props) {
   const [likeGiven, setLikeGiven] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-
   const handleReaction = () => {
     axios
       .post(
