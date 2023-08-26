@@ -1,5 +1,7 @@
 import "./UserProfile.css";
 import Navbar from "../Navbar/Navbar";
+import StatusBox from "../StatusBox/StatusBox";
+import UserPost from "../UserPost/UserPost";
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,7 +10,19 @@ function UserProfile() {
   const location = useLocation();
   const [friendCount, setFriendCount] = useState(0);
   const [mutualFriend, setMutualFriend] = useState(0);
+  const [usrPost, setUsrPost] = useState([]);
+  const [statusText, setStatusText] = useState("");
   console.log(location.state.targetProfile);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`
+      )
+      .then((res) => {
+        setUsrPost(res.data);
+      });
+  }, [statusText]);
   const getMutualText = () => {
     if (
       location.state.currentProfile.user_id ===
@@ -81,9 +95,34 @@ function UserProfile() {
                 </div>
                 <div className="counter">{friendCount} friends</div>
                 <div className="counter">{getMutualText()}</div>
+                <button id="connect-btn">Connect</button>
+                <button id="message-btn">Message</button>
               </div>
             </div>
-            <div className="col-8"></div>
+            <div className="col-8">
+              <StatusBox
+                currentProfile={location.state}
+                statusText={statusText}
+                setStatusText={setStatusText}
+              />
+              
+              {usrPost.map((item, index) => (
+                <UserPost
+                  key={index}
+                  details={{
+                    post_id: item.post_id,
+                    content: item.content,
+                    timestamp: item.time_stamp,
+                    creator: {
+                      firstname: item.firstname,
+                      lastname: item.lastname,
+                      gender: item.gender,
+                    },
+                  }}
+                  currentProfile={location.state}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

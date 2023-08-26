@@ -58,3 +58,34 @@
     font-weight: 700;
     line-height: normal;
 }
+
+#connect-btn{
+  display: block;
+  margin: auto;
+  color: #FFF;
+  font-family: Inter;
+  font-size: 3vh;
+  font-style: normal;
+  font-weight: 700;
+  width: 250px;
+  flex-shrink: 0;
+  border-radius: 40px;
+  background: rgba(42, 95, 172, 0.60);
+  margin-top: 2vh;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+#message-btn{
+  display: block;
+  margin: auto;
+  color: rgba(42, 95, 172, 0.60);
+  font-family: Inter;
+  font-size: 3vh;
+  font-style: normal;
+  font-weight: 700;
+  width: 250px;
+  flex-shrink: 0;
+  border-radius: 40px;
+  background: #FFF;
+  margin-top: 2vh;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
