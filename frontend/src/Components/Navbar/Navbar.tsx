@@ -96,7 +96,7 @@ function Navbar( {currentProfile = location.state.currentProfile, onSearch, sear
             style={{ justifyContent: "right", width: "50px" }}
           >
             <div style={{marginRight: "15px"}}> {/* Chat */}
-              <button className="navbar">
+              <button className="navbar" onClick={() => navigate('/chat', {state: {currentProfile: currentProfile}})}>
                 <img
                   src="./src/assets/Chat_icon.png"
                   alt="Profile"

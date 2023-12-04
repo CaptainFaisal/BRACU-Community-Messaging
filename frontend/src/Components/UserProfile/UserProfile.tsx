@@ -12,10 +12,18 @@ function UserProfile() {
   const [mutualFriend, setMutualFriend] = useState(0);
   const [usrPost, setUsrPost] = useState([]);
   const [statusText, setStatusText] = useState("");
+  const [connect, setConnect] = useState(false);
   const handleConnect = (sent_id: Number, received_id: Number) => {
     axios.post(`http://localhost:3000/user/sendrequest`, {user_id: sent_id, received_id: received_id})
     .then(res => {
-      console.log(res.data);
+      if (res.data["msg"] === "connected") {
+        setConnect(true);
+        console.log("connected");
+      }
+      else {
+        setConnect(false);
+        console.log("disconnected");
+      }
     })
     .catch(err => {
       console.log(err);
@@ -31,6 +39,24 @@ function UserProfile() {
         console.log(res.data);
       });
   }, [statusText]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/user/checkconnection/${location.state.currentProfile.user_id}/${location.state.targetProfile.user_id}`)
+    .then(res => {
+      if (res.data["msg"] === "connected") {
+        setConnect(true);
+        console.log("connected");
+      }
+      else {
+        setConnect(false);
+        console.log("disconnected");
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }, [])
+
   const getMutualText = () => {
     if (
       location.state.currentProfile.user_id ===
@@ -103,8 +129,12 @@ function UserProfile() {
                 </div>
                 <div className="counter">{friendCount} friends</div>
                 <div className="counter">{getMutualText()}</div>
-                <button id="connect-btn" onClick={() => handleConnect(location.state.currentProfile.user_id, location.state.targetProfile.user_id)}>Connect</button>
-
+                {
+                  location.state.currentProfile.user_id === location.state.targetProfile.user_id?
+                  <></>:
+                  <button id="connect-btn" onClick={() => handleConnect(location.state.currentProfile.user_id, location.state.targetProfile.user_id)}>{connect?"Connected":"Connect"}</button>
+                }
+                
                 {/* <button id="message-btn">Message</button> */}
               </div>
             </div>
