@@ -9,10 +9,12 @@ const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment');
 const verifyRouter = require('./routes/verify');
+const chatRouter = require('./routes/chat');
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 app.use('/verify', verifyRouter);
+app.use('/chat', chatRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

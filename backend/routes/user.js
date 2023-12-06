@@ -122,4 +122,15 @@ router.get("/getfriendcount/:user_id", (req, res) => {
     }
   );
 });
+
+router.get("/getdetails/:user_id", (req, res) => {
+  db.query(
+    `SELECT * FROM users WHERE user_id = ${req.params.user_id}`,
+    (err, result) => {
+      if (err) console.log(err);
+      res.send(result[0]);
+    }
+  );
+});
+
 module.exports = router;
