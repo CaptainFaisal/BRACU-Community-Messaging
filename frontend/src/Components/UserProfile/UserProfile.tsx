@@ -2,7 +2,7 @@ import "./UserProfile.css";
 import Navbar from "../Navbar/Navbar";
 import StatusBox from "../StatusBox/StatusBox";
 import UserPost from "../UserPost/UserPost";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -13,6 +13,48 @@ function UserProfile() {
   const [usrPost, setUsrPost] = useState([]);
   const [statusText, setStatusText] = useState("");
   const [connect, setConnect] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const navigate = useNavigate();
+  const handleNameSave = async (name:string) => {
+    const input = document.getElementById("name") as HTMLInputElement;
+    const nameElement = document.createElement("div");
+    nameElement.setAttribute("id", "name");
+    nameElement.innerHTML = "Updating...";
+    await axios.post(`http://localhost:3000/user/updatename`, {user_id: location.state.currentProfile.user_id, name: name})
+    location.state.currentProfile.firstname = name.split(" ")[0];
+    location.state.currentProfile.lastname = name.split(" ")[1];
+    navigate("/profile", {state: location.state})
+    nameElement.innerHTML = name;
+    nameElement.ondblclick = handleNameEdit;
+    input?.replaceWith(nameElement);
+  }
+  const handlePhotoUpload = async (e:any) => {
+    const formData = new FormData();
+    formData.append("myfile", e.target.files[0]);
+    const response = await axios.post(`http://localhost:3000/user/uploadphoto/${location.state.currentProfile.user_id}`, formData)
+    location.state.currentProfile.profile_picture = response.data.file;
+    navigate("/profile", {state: location.state})
+  }
+  const handlePhotoChange = (e:any) => {
+    const input = document.getElementById("photoinput") as HTMLInputElement;
+    input.click();
+  }
+  const handleNameEdit = () => {
+    const nameElement = document.getElementById("name");
+    //change the name element to input
+    const input = document.createElement("input");
+    input.type = "text";
+    input.setAttribute("id", "name");
+    input.setAttribute("value", nameElement?.innerHTML || "");
+    input.onblur = (e) => handleNameSave(e.target?.value);
+    // on pressing enter button handleNameSave will be called
+    input.onkeyup = (event) => {
+      if (event.key === "Enter") {
+        handleNameSave(event.target?.value);
+      }
+    };
+    nameElement?.replaceWith(input);
+  }
   const handleConnect = (sent_id: Number, received_id: Number) => {
     axios.post(`http://localhost:3000/user/sendrequest`, {user_id: sent_id, received_id: received_id})
     .then(res => {
@@ -108,22 +150,21 @@ function UserProfile() {
           <div className="row">
             <div className="col-4">
               <div id="profile-box">
+                <input 
+                  type="file" 
+                  name="" 
+                  id="photoinput" 
+                  onChange={handlePhotoUpload}  
+                  />
                 <div id="profile-container">
-                  {location.state.targetProfile["gender"] === "1" ? (
-                    <img
-                      src="./src/assets/maleAvatar.png"
-                      alt="Profile"
-                      className="profile-photo"
-                    />
-                  ) : (
-                    <img
-                      src="./src/assets/femaleAvatar.png"
-                      alt="Profile"
-                      className="profile-photo"
-                    />
-                  )}
+                  <img
+                    src={!location.state.currentProfile.profile_picture?`./src/assets/${location.state.targetProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${location.state.currentProfile.profile_picture}`}
+                    alt="Profile"
+                    className="profile-photo"
+                    onDoubleClick={handlePhotoChange}
+                  />
                 </div>
-                <div id="name">
+                <div id="name" onDoubleClick={handleNameEdit}>
                   {location.state.targetProfile.firstname}{" "}
                   {location.state.targetProfile.lastname}
                 </div>
@@ -158,6 +199,7 @@ function UserProfile() {
                       firstname: item.firstname,
                       lastname: item.lastname,
                       gender: item.gender,
+                      profilePicture: item.profile_picture,
                     },
                   }}
                   currentProfile={location.state.currentProfile}

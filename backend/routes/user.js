@@ -1,6 +1,31 @@
 const express = require("express");
 const db = require("../connection.js");
 const router = express.Router();
+const path = require("path");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: function (req, file, cb) {
+    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  // limits: { fileSize: 1000000 },
+}).single("myfile")
+
+const obj = (req, res, next) => {
+  try {
+    upload(req, res, () => {
+      next();
+    });
+
+  } catch (error) {
+    console.log("obj",error)
+  }
+}
 
 router.post("/new", (req, res) => {
   const data = req.body;
@@ -133,4 +158,24 @@ router.get("/getdetails/:user_id", (req, res) => {
   );
 });
 
+router.post("/updatename", (req, res) => {
+  const { name, user_id } = req.body;
+  const [firstname, lastname] = name.split(" ");
+  db.query(
+    `UPDATE users SET firstname = "${firstname}", lastname = "${lastname}" WHERE user_id = ${user_id}`,
+    (err, result) => {
+      if (err) console.log("endpoint", err);
+      res.send({ msg: "success" });
+    }
+  );
+});
+
+router.post("/uploadphoto/:user_id", upload, async (req, res) => {
+  const { user_id } = req.params;
+  db.query(`UPDATE users SET profile_picture = "${req.file.filename}" WHERE user_id = ${user_id}`
+    , (err, result) => {
+      if (err) console.log(err);
+      res.send({ "file" : req.file.filename });
+    });
+});
 module.exports = router;

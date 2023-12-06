@@ -36,7 +36,7 @@ router.post('/unlike', (req, res) => {
 })
 
 router.get('/getall/:post_id', (req, res) => {
-    db.query(`SELECT firstname, lastname, gender, content, c.time_stamp, comment_id 
+    db.query(`SELECT firstname, lastname, gender, profile_picture, content, c.time_stamp, comment_id 
 FROM comment c
 INNER JOIN users u
 ON c.commenter_id = u.user_id

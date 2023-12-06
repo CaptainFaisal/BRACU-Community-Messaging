@@ -8,6 +8,7 @@ interface Props {
 }
 
 function Comment({ allDetails, currentProfile }: Props) {
+  console.log(allDetails.profile_picture)
   const [likeGiven, setLikeGiven] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const handleReaction = () => {
@@ -53,19 +54,11 @@ function Comment({ allDetails, currentProfile }: Props) {
     <>
       <div className="row">
         <div className="col-1 mt-1">
-          {allDetails["gender"] === "1" ? (
-            <img
-              src="./src/assets/maleAvatar.png"
-              alt="Profile"
-              className="ProfileStyleSmall"
-            />
-          ) : (
-            <img
-              src="./src/assets/femaleAvatar.png"
-              alt="Profile"
-              className="ProfileStyleSmall"
-            />
-          )}
+        <img
+            src={!allDetails.profile_picture?`./src/assets/${allDetails["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${allDetails.profile_picture}`}
+            alt="Profile"
+            className="ProfileStyle"
+          />
         </div>
         <div className="col-11">
           <div id="comment-outer">

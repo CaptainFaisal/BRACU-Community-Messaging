@@ -134,19 +134,11 @@ function UserPost({ details, currentProfile }: Props) {
             className="col-1 picButton"
             onClick={() => console.log("Pic")}
           >
-            {details["creator"]["gender"] === "1" ? (
-              <img
-                src="./src/assets/maleAvatar.png"
-                alt="Profile"
-                className="ProfileStyle"
-              />
-            ) : (
-              <img
-                src="./src/assets/femaleAvatar.png"
-                alt="Profile"
-                className="ProfileStyle"
-              />
-            )}
+          <img
+            src={!details.creator.profilePicture?`./src/assets/${details.creator["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${details.creator.profilePicture}`}
+            alt="Profile"
+            className="ProfileStyle"
+          />
           </button>
 
           {/* Username and Timestamp*/}

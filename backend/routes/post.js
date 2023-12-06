@@ -65,7 +65,7 @@ router.get('/getsharecount/:post_id', (req, res) => {
 });
 
 router.get('/getallshared/:user_id', (req, res) => {
-    db.query(`SELECT p.post_id, content, s.time_stamp, firstname, lastname, gender FROM shared s
+    db.query(`SELECT p.post_id, content, s.time_stamp, firstname, lastname, gender, profile_picture FROM shared s
 INNER JOIN users u
 ON u.user_id = s.user_id
 INNER JOIN posts p
@@ -77,14 +77,14 @@ WHERE s.user_id = ${req.params.user_id};`, (err, result) => {
 });
 
 router.get('/getall/:user_id', (req, res) => {
-    db.query(`(SELECT p.post_id, content, p.time_stamp, firstname, lastname, gender FROM shared s
+    db.query(`(SELECT p.post_id, content, p.time_stamp, firstname, lastname, gender, profile_picture FROM shared s
 INNER JOIN users u
 ON u.user_id = s.user_id
 INNER JOIN posts p
 ON p.post_id = s.post_id
 WHERE s.user_id = ${req.params.user_id})
 UNION
-(SELECT p1.post_id, content, p1.time_stamp, firstname, lastname, gender FROM posts p1
+(SELECT p1.post_id, content, p1.time_stamp, firstname, lastname, gender, profile_picture FROM posts p1
 INNER JOIN users u1
 ON u1.user_id = p1.creator_id
 WHERE u1.user_id = ${req.params.user_id});`, (err, result) => {
@@ -108,7 +108,7 @@ router.get('/isliked/:post_id/:user_id', (req, res) => {
 });
 
 router.get('/getallnewsfeed/:user_id', (req, res) => {
-    db.query(`SELECT post_id, content, t1.time_stamp, firstname, lastname, gender FROM
+    db.query(`SELECT post_id, content, t1.time_stamp, firstname, lastname, gender, profile_picture FROM
     (SELECT * FROM posts
     WHERE creator_id
     IN 

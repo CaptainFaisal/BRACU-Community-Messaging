@@ -100,6 +100,7 @@ function Newsfeed() {
                     firstname: item.firstname,
                     lastname: item.lastname,
                     gender: item.gender,
+                    profilePicture: item.profile_picture,
                   },
                 }}
                 currentProfile={location.state}

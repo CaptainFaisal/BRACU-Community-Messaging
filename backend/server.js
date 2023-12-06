@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require("path");
 const cors = require('cors');
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,7 @@ app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 app.use('/verify', verifyRouter);
 app.use('/chat', chatRouter);
+app.use("/uploads",express.static(path.join(__dirname, "./uploads/")));
 
 const PORT = 3000;
 app.listen(PORT, () => {
