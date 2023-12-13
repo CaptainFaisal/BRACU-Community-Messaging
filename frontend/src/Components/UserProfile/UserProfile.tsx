@@ -149,8 +149,6 @@ function UserProfile() {
       });
   }, []);
 
-  console.log("Current", location.state.currentProfile, "Target", location.state.targetProfile);
-
   return (
     <>
       <div id="supercontainer">

@@ -21,10 +21,10 @@ router.get("/get-chat-heads/:user_id", (req, res) => {
     `SELECT receive_user_id AS user_id, time_stamp, seen_status
     FROM
     (
-        SELECT receive_user_id, time_stamp, seen_status FROM chat WHERE send_user_id = ${req.params.user_id}
-        UNION
-        SELECT send_user_id, time_stamp, seen_status FROM chat WHERE receive_user_id = ${req.params.user_id}
-        ORDER BY time_stamp DESC
+      SELECT receive_user_id, time_stamp, seen_status FROM chat WHERE send_user_id = ${req.params.user_id}
+      UNION
+      SELECT send_user_id, time_stamp, seen_status FROM chat WHERE receive_user_id = ${req.params.user_id}
+      ORDER BY time_stamp DESC
     ) AS chats
     GROUP BY chats.receive_user_id
     HAVING MAX(time_stamp)

@@ -1,5 +1,5 @@
 import styles from "./ChatThread.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 interface Props {
@@ -36,7 +36,7 @@ function ChatThread({ activeHead, currentProfile }: Props) {
   console.log(otherUser);
 
   return (
-    <>
+    <div>
       {chats.map((chat: object, index) => {
         return (
           <div key={index}>
@@ -102,7 +102,7 @@ function ChatThread({ activeHead, currentProfile }: Props) {
           </div>
         );
       })}
-    </>
+    </div>
   );
 }
 
