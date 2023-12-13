@@ -3,11 +3,14 @@ import "./ChatHead.css";
 import { useEffect, useState } from "react";
 
 interface Props {
+  currentProfile: object;
   chatHead: object;
+  setActiveHead: Function;
 }
 
-function ChatHead({ chatHead }: Props) {
+function ChatHead({ currentProfile, chatHead, setActiveHead }: Props) {
   const [chatHeadProfile, setChatHeadProfile] = useState({});
+  const [seenStatus, setSeenStatus] = useState(chatHead.seen_status);
 
   useEffect(() => {
     axios
@@ -18,12 +21,43 @@ function ChatHead({ chatHead }: Props) {
       .catch((err) => {
         console.log(err);
       });
+    
+    if (seenStatus === 0) {
+      axios.get(`http://localhost:3000/chat/get-last-message/${currentProfile.user_id}/${chatHead.user_id}`)
+      .then((res) => {
+        if (res.data.send_user_id === currentProfile.user_id) {
+          setSeenStatus(1);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    
   }, []);
 
+  const handleClick = () => {
+    setActiveHead(chatHead);
+
+    if (chatHead.seen_status === 0) {
+      axios
+        .put("http://localhost:3000/chat/update-seen-status", {
+          this_id: currentProfile.user_id,
+          another_id: chatHead.user_id,
+        })
+        .then(() => {
+          setSeenStatus(1);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+  
   return (
     <>
-      {chatHead.seen_status === 0 ? (
-        <div id="boldHead">
+      {seenStatus === 0 ? (
+        <div id="boldHead" onClick={handleClick}>
           <div className="row">
             <div className="col-3">
               {chatHeadProfile.gender === "1" ? (
@@ -58,7 +92,7 @@ function ChatHead({ chatHead }: Props) {
           </div>
         </div>
       ) : (
-        <div id="normalHead">
+        <div id="normalHead" onClick={handleClick}>
           <div className="row">
             <div className="col-3">
               {chatHeadProfile.gender === "1" ? (

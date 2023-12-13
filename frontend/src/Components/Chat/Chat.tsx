@@ -4,24 +4,23 @@ import { useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ChatHead from "../ChatHead/ChatHead";
+import ChatTextPanel from "../ChatTextPanel/ChatTextPanel";
 
 function Chat() {
   const location = useLocation();
   const [chatHeads, setChatHeads] = useState([]);
-  const [activeHead, setActiveHead] = useState({});
+  const [activeHead, setActiveHead] = useState(null);
 
   useEffect(() => {
-    console.log("Current", location.state.currentProfile);
     axios
       .get(`http://localhost:3000/chat/get-chat-heads/${location.state.currentProfile.user_id}`)
       .then((res) => {
-        console.log(res.data);
         setChatHeads(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [activeHead]);
 
   return (
     <>
@@ -30,12 +29,14 @@ function Chat() {
         <div className="col-3" id="left-panel">
           {
             chatHeads.map((chatHead: object, index) => {
-              return <ChatHead chatHead={chatHead}  key={index} />;
+              return <ChatHead currentProfile={location.state.currentProfile} chatHead={chatHead} setActiveHead={setActiveHead} key={index} />;
             })
           }
         </div>
         <div className="col-9" id="right-panel">
-          
+          {
+            activeHead ? <ChatTextPanel currentProfile={location.state.currentProfile} activeHead={activeHead} /> : <div id="chatnotactive">Click on a chat to start</div>
+          }
         </div>
       </div>
     </>

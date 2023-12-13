@@ -40,6 +40,10 @@ function UserProfile() {
     input.click();
   }
   const handleNameEdit = () => {
+    if (location.state.currentProfile.user_id !== location.state.targetProfile.user_id) {
+      return;
+    }
+
     const nameElement = document.getElementById("name");
     //change the name element to input
     const input = document.createElement("input");
@@ -70,11 +74,21 @@ function UserProfile() {
     .catch(err => {
       console.log(err);
     })
+
+
+    // first text
+    axios.post(`http://localhost:3000/chat/create`, {sender_id: sent_id, receiver_id: received_id, content: ""})
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
   };
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3000/post/getall/${location.state.currentProfile.user_id}`
+        `http://localhost:3000/post/getall/${location.state.targetProfile.user_id}`
       )
       .then((res) => {
         setUsrPost(res.data);
@@ -135,6 +149,8 @@ function UserProfile() {
       });
   }, []);
 
+  console.log("Current", location.state.currentProfile, "Target", location.state.targetProfile);
+
   return (
     <>
       <div id="supercontainer">
@@ -158,7 +174,7 @@ function UserProfile() {
                   />
                 <div id="profile-container">
                   <img
-                    src={!location.state.currentProfile.profile_picture?`./src/assets/${location.state.targetProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${location.state.currentProfile.profile_picture}`}
+                    src={!location.state.targetProfile.profile_picture?`./src/assets/${location.state.targetProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${location.state.targetProfile.profile_picture}`}
                     alt="Profile"
                     className="profile-photo"
                     onDoubleClick={handlePhotoChange}
@@ -180,13 +196,18 @@ function UserProfile() {
               </div>
             </div>
             <div className="col-8">
-              <div id="status-container">
-                <StatusBox
-                  currentProfile={location.state.currentProfile}
-                  statusText={statusText}
-                  setStatusText={setStatusText}
-                />
-              </div>
+              {
+                location.state.currentProfile.user_id === location.state.targetProfile.user_id?
+                <div id="status-container">
+                  <StatusBox
+                    currentProfile={location.state.currentProfile}
+                    statusText={statusText}
+                    setStatusText={setStatusText}
+                  />
+                </div>
+                :
+                <></>
+              }
 
               {usrPost.map((item, index) => (
                 <UserPost

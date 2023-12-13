@@ -231,19 +231,11 @@ function UserPost({ details, currentProfile }: Props) {
             style={{ paddingRight: "0px" }}
           >
             <div className="col-1 picButton">
-              {currentProfile["gender"] === "1" ? (
-                <img
-                  src="./src/assets/maleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyleSmall"
-                />
-              ) : (
-                <img
-                  src="./src/assets/femaleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyleSmall"
-                />
-              )}
+              <img
+                src={!currentProfile.profile_picture?`./src/assets/${currentProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${currentProfile.profile_picture}`}
+                alt="Profile"
+                className="ProfileStyleSmall"
+              />
             </div>
             <div className="col-10">
               <textarea

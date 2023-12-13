@@ -33,19 +33,11 @@ function StatusBox({ currentProfile, statusText, setStatusText }: Props) {
         <div className="outer">
           <div className="row">
             <div className="col-1">
-              {currentProfile["gender"] === "1" ? (
-                <img
-                  src="./src/assets/maleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyle"
-                />
-              ) : (
-                <img
-                  src="./src/assets/femaleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyle"
-                />
-              )}
+              <img
+                src={!currentProfile.profile_picture?`./src/assets/${currentProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${currentProfile.profile_picture}`}
+                alt="Profile"
+                className="ProfileStyle"
+              />
             </div>
 
             <div className="col">
