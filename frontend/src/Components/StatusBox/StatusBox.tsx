@@ -1,13 +1,13 @@
 import axios from "axios";
 import "./StatusBox.css";
-import { useState } from "react";
 
 interface Props {
   currentProfile: object;
+  statusText: string;
+  setStatusText: Function;
 }
 
-function StatusBox({ currentProfile }: Props) {
-  const [statusText, setStatusText] = useState("");
+function StatusBox({ currentProfile, statusText, setStatusText }: Props) {
 
   const submitStatus = (event) => {
     event.preventDefault();
@@ -18,12 +18,12 @@ function StatusBox({ currentProfile }: Props) {
       })
       .then((res) => {
         console.log("Success:", res.data.msg);
+        setStatusText("");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
-    setStatusText("");
     event.target.reset();
   };
 
@@ -33,19 +33,11 @@ function StatusBox({ currentProfile }: Props) {
         <div className="outer">
           <div className="row">
             <div className="col-1">
-              {currentProfile["gender"] === "1" ? (
-                <img
-                  src="./src/assets/maleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyle"
-                />
-              ) : (
-                <img
-                  src="./src/assets/femaleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyle"
-                />
-              )}
+              <img
+                src={!currentProfile.profile_picture?`./src/assets/${currentProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${currentProfile.profile_picture}`}
+                alt="Profile"
+                className="ProfileStyle"
+              />
             </div>
 
             <div className="col">

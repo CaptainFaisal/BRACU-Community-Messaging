@@ -3,13 +3,13 @@ import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router";
 
 interface Props {
-  gender?: string;
+  currentProfile?: object;
   onSearch?: (searchString: string) => void;
   searchBarText?: string;
   setSearchBarText?: (searchString: string) => void;
 }
 
-function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
+function Navbar( {currentProfile = location.state.currentProfile, onSearch, searchBarText, setSearchBarText}: Props ) {
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -52,7 +52,7 @@ function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
       >
         <div className="container-fluid">
           {/* Logo */}
-          <button className="navbar-brand" style={{marginRight: "25%"}} onClick={() => navigate("/home", {state: location.state})}>
+          <button className="navbar-brand" style={{marginRight: "25%"}} onClick={() => navigate("/home", {state: location.state.currentProfile})}>
             <img src="./src/assets/Logo.png" alt="Logo" />
           </button>
 
@@ -96,7 +96,7 @@ function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
             style={{ justifyContent: "right", width: "50px" }}
           >
             <div style={{marginRight: "15px"}}> {/* Chat */}
-              <button className="navbar">
+              <button className="navbar" onClick={() => navigate('/chat', {state: {currentProfile: currentProfile}})}>
                 <img
                   src="./src/assets/Chat_icon.png"
                   alt="Profile"
@@ -105,19 +105,12 @@ function Navbar( {gender, onSearch, searchBarText, setSearchBarText}: Props ) {
               </button>
             </div>
             <div> {/* Profile */}
-              <button className="navbar" onClick={() => console.log("Needs to be iplemented")}>
-                {gender==='1'?
-                  <img
-                  src="./src/assets/maleAvatar.png"
-                  alt="Profile"
-                  className="ProfileStyle"
-                /> :
+              <button className="navbar" onClick={() => navigate('/profile', {state: {currentProfile: currentProfile, targetProfile: currentProfile}})} onDoubleClick={() => navigate('/')}>
                 <img
-                  src="./src/assets/femaleAvatar.png"
+                  src={!currentProfile.profile_picture?`./src/assets/${currentProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${currentProfile.profile_picture}`}
                   alt="Profile"
                   className="ProfileStyle"
                 />
-                }
                 
                 <div className="DownArrow">V</div>
                 

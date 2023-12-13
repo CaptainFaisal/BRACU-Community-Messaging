@@ -1,6 +1,7 @@
 // need to link to profile page
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import "./FindPeople.css"
 import axios from "axios";
 
@@ -12,13 +13,14 @@ interface Props {
 function FindPeople({allDetails, currentProfile}: Props) {
 
   const [mutual, setMutual] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/getmutualcount/${allDetails.user_id}/${currentProfile.user_id}`).then(res => setMutual(res.data.mutual)).catch(err => console.log(err));
-  }, [])
+  }, [mutual])
 
   const handleClick = () => {
-    // navigate("/profile", { state: { allDetails: allDetails, currentProfile: currentProfile } });")
+    navigate("/profile", { state: { currentProfile: currentProfile, targetProfile: allDetails } })
   }
   return (
     <>

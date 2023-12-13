@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Aug 19, 2023 at 02:07 PM
--- Server version: 8.0.34-0ubuntu0.22.04.1
--- PHP Version: 8.1.2-1ubuntu2.13
+-- Host: 127.0.0.1
+-- Generation Time: Dec 13, 2023 at 08:26 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,14 +28,39 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `chat` (
-  `chat_id` int NOT NULL,
+  `chat_id` int(11) NOT NULL,
   `seen_status` tinyint(1) NOT NULL,
-  `content` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `send_user_id` int NOT NULL,
-  `receive_user_id` int NOT NULL,
-  `reply_of` int DEFAULT NULL
+  `content` varchar(1000) DEFAULT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `send_user_id` int(11) NOT NULL,
+  `receive_user_id` int(11) NOT NULL,
+  `reply_of` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chat`
+--
+
+INSERT INTO `chat` (`chat_id`, `seen_status`, `content`, `time_stamp`, `send_user_id`, `receive_user_id`, `reply_of`) VALUES
+(1, 0, 'Hello', '2023-11-09 06:39:17', 110, 1, NULL),
+(2, 1, 'Hello', '2023-11-10 07:33:27', 1, 110, NULL),
+(3, 1, 'Hello', '2023-11-19 08:29:23', 2, 110, NULL),
+(4, 0, 'Hello', '2023-11-20 11:22:20', 110, 3, NULL),
+(6, 1, 'Hi', '2023-12-04 02:33:19', 3, 110, NULL),
+(7, 1, 'Whassup?', '2023-12-05 06:41:14', 3, 110, NULL),
+(8, 0, 'Ki obostha?', '2023-12-05 20:31:02', 110, 107, NULL),
+(9, 0, 'Hi', '2023-12-06 23:17:59', 110, 109, NULL),
+(10, 0, 'This is from text area', '2023-12-13 16:25:28', 110, 107, NULL),
+(11, 0, 'Again from text area', '2023-12-13 16:29:42', 110, 109, NULL),
+(12, 0, 'This is text 3\nGood luck', '2023-12-13 16:32:45', 110, 107, NULL),
+(13, 0, 'Last one didnt work', '2023-12-13 16:33:50', 110, 109, NULL),
+(14, 0, 'This is another one\n', '2023-12-13 17:22:59', 110, 109, NULL),
+(15, 0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id vehicula velit. Curabitur tortor justo, consequat ut \nscelerisque et, fringilla vel nibh. Donec ornare suscipit massa quis posuere. Vestibulum mattis enim nec mattis varius.\n Vestibulum a sem sapien. Vivamus vitae dolor non mauris facilisis tempor et a ligula. Vivamus id interdum metus. \nDonec vestibulum sapien non augue lobortis efficitur. Suspendisse suscipit, eros at volutpat pellentesque, enim justo \nauctor nisi, facilisis finibus nulla dolor in mauris. Maecenas gravida metus ac aliquet malesuada. Nulla facilisi. Quisque \nplacerat, leo eget fermentum dapibus, erat enim finibus orci, in lacinia nunc turpis ut magna', '2023-12-13 19:03:25', 110, 3, NULL),
+(16, 0, '', '2023-12-13 19:16:35', 110, 1, NULL),
+(17, 0, '', '2023-12-13 19:16:41', 110, 8, NULL),
+(18, 0, '', '2023-12-13 19:17:17', 110, 8, NULL),
+(19, 0, '', '2023-12-13 19:17:19', 110, 8, NULL),
+(20, 0, 'First text', '2023-12-13 19:17:45', 110, 8, NULL);
 
 -- --------------------------------------------------------
 
@@ -44,13 +69,20 @@ CREATE TABLE `chat` (
 --
 
 CREATE TABLE `comment` (
-  `comment_id` int NOT NULL,
-  `content` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `commenter_id` int NOT NULL,
-  `post_id` int NOT NULL,
-  `reply_of` int DEFAULT NULL
+  `comment_id` int(11) NOT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `commenter_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `reply_of` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`comment_id`, `content`, `time_stamp`, `commenter_id`, `post_id`, `reply_of`) VALUES
+(1, 'Hello', '2023-08-26 12:58:41', 110, 40, NULL);
 
 -- --------------------------------------------------------
 
@@ -59,9 +91,9 @@ CREATE TABLE `comment` (
 --
 
 CREATE TABLE `friend` (
-  `user_id` int NOT NULL,
-  `received_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `received_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -84,7 +116,17 @@ INSERT INTO `friend` (`user_id`, `received_id`, `time_stamp`) VALUES
 (9, 15, '2023-08-17 09:34:28'),
 (2, 20, '2023-08-17 09:34:52'),
 (17, 2, '2023-08-17 09:34:52'),
-(20, 1, '2023-08-17 09:35:21');
+(20, 1, '2023-08-17 09:35:21'),
+(110, 17, '2023-12-04 00:36:13'),
+(110, 17, '2023-12-04 00:53:36'),
+(110, 14, '2023-12-04 06:54:54'),
+(110, 110, '2023-12-07 07:52:29'),
+(110, 110, '2023-12-07 07:52:35'),
+(110, 110, '2023-12-07 07:52:36'),
+(110, 110, '2023-12-07 07:52:36'),
+(110, 110, '2023-12-07 07:52:37'),
+(110, 109, '2023-12-07 07:59:59'),
+(110, 8, '2023-12-13 19:17:19');
 
 -- --------------------------------------------------------
 
@@ -93,9 +135,9 @@ INSERT INTO `friend` (`user_id`, `received_id`, `time_stamp`) VALUES
 --
 
 CREATE TABLE `friend_request_received` (
-  `user_id` int NOT NULL,
-  `friend_user_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `friend_user_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -105,9 +147,9 @@ CREATE TABLE `friend_request_received` (
 --
 
 CREATE TABLE `friend_request_sent` (
-  `user_id` int NOT NULL,
-  `friend_user_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `friend_user_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -117,10 +159,10 @@ CREATE TABLE `friend_request_sent` (
 --
 
 CREATE TABLE `posts` (
-  `post_id` int NOT NULL,
-  `content` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `creator_id` int NOT NULL
+  `post_id` int(11) NOT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `creator_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -139,7 +181,33 @@ INSERT INTO `posts` (`post_id`, `content`, `time_stamp`, `creator_id`) VALUES
 (14, 'lorem ipsum set emet', '2023-08-18 09:32:21', 13),
 (15, 'hello world, I am user number 13 and I am writing some content of my post.', '2023-08-18 09:33:12', 13),
 (16, 'Hello world, I am posting again', '2023-08-18 12:57:17', 1),
-(17, 'hello there, this is new post', '2023-08-18 16:12:55', 1);
+(17, 'hello there, this is new post', '2023-08-18 16:12:55', 1),
+(18, 'dvdve', '2023-08-19 20:31:24', 107),
+(19, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:24', 107),
+(20, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:26', 107),
+(21, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:26', 107),
+(22, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:27', 107),
+(23, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:27', 107),
+(24, 'sgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[egsgoj[eg', '2023-08-19 23:01:28', 107),
+(25, 'jvob\njvjlb', '2023-08-19 23:28:49', 107),
+(26, 'sghjo[gs\ndghopnge', '2023-08-19 23:40:12', 107),
+(27, 'dgsg\nwgg', '2023-08-19 23:40:54', 107),
+(28, 'dgsg\nwgg', '2023-08-19 23:40:57', 107),
+(29, 'wfowon\nwf;w', '2023-08-19 23:49:17', 107),
+(30, 'sggw\n;fnbownfw', '2023-08-19 23:51:06', 107),
+(31, 'hlrpin\nekg;b', '2023-08-19 23:53:14', 107),
+(32, '', '2023-08-19 23:53:47', 107),
+(33, '', '2023-08-19 23:54:17', 107),
+(34, 'ddbd\njtj', '2023-08-19 23:54:38', 107),
+(35, 'dsgds', '2023-08-19 23:56:25', 107),
+(36, '', '2023-08-19 23:57:07', 107),
+(37, '', '2023-08-19 23:57:35', 107),
+(38, '', '2023-08-19 23:58:10', 107),
+(39, 'hwepiepog\nrogbwi4no', '2023-08-19 23:58:26', 107),
+(40, 'legfpiogo\nwhrhr', '2023-08-25 17:11:45', 110),
+(41, 'Hello from today\n', '2023-12-04 00:18:30', 110),
+(42, 'Hello', '2023-12-05 21:18:27', 110),
+(43, 'Hello', '2023-12-13 18:07:22', 110);
 
 -- --------------------------------------------------------
 
@@ -148,9 +216,9 @@ INSERT INTO `posts` (`post_id`, `content`, `time_stamp`, `creator_id`) VALUES
 --
 
 CREATE TABLE `reacts_chat` (
-  `user_id` int NOT NULL,
-  `chat_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `chat_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -160,9 +228,9 @@ CREATE TABLE `reacts_chat` (
 --
 
 CREATE TABLE `reacts_comment` (
-  `user_id` int NOT NULL,
-  `comment_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -172,9 +240,9 @@ CREATE TABLE `reacts_comment` (
 --
 
 CREATE TABLE `reacts_post` (
-  `user_id` int NOT NULL,
-  `post_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -193,9 +261,9 @@ INSERT INTO `reacts_post` (`user_id`, `post_id`, `time_stamp`) VALUES
 --
 
 CREATE TABLE `shared` (
-  `user_id` int NOT NULL,
-  `post_id` int NOT NULL,
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -217,8 +285,8 @@ INSERT INTO `shared` (`user_id`, `post_id`, `time_stamp`) VALUES
 --
 
 CREATE TABLE `social_links` (
-  `user_id` int NOT NULL,
-  `social_link` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `user_id` int(11) NOT NULL,
+  `social_link` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -228,19 +296,19 @@ CREATE TABLE `social_links` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int NOT NULL,
-  `firstname` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `lastname` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `firstname` varchar(30) NOT NULL,
+  `lastname` varchar(30) NOT NULL,
   `dob` date NOT NULL,
-  `bio` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `password` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `profile_picture` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cover_photo` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gender` char(1) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ver_status` tinyint(1) NOT NULL DEFAULT '0',
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `bio` varchar(100) DEFAULT NULL,
+  `password` varchar(30) NOT NULL,
+  `profile_picture` varchar(100) DEFAULT NULL,
+  `cover_photo` varchar(100) DEFAULT NULL,
+  `gender` char(1) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `ver_status` tinyint(1) NOT NULL DEFAULT 0,
+  `time_stamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -248,26 +316,30 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `dob`, `bio`, `password`, `profile_picture`, `cover_photo`, `gender`, `email`, `phone`, `ver_status`, `time_stamp`) VALUES
-(1, 'fname 1', 'lname 1', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '2', 'example1@xyz.com', '1234567890', 1, '2023-08-18 11:10:39'),
-(2, 'fname 2', 'lname 2', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example2@xyz.com', '1234567890', 1, '2023-08-17 08:16:42'),
-(3, 'fname 3', 'lname 3', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example3@xyz.com', '1234567890', 1, '2023-08-17 08:16:53'),
-(4, 'fname 4', 'lname 4', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example4@xyz.com', '1234567890', 1, '2023-08-17 08:17:05'),
-(5, 'fname 5', 'lname 5', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example5@xyz.com', '1234567890', 1, '2023-08-17 08:17:14'),
-(6, 'fname 6', 'lname 6', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example6@xyz.com', '1234567890', 1, '2023-08-17 08:17:24'),
-(7, 'fname 7', 'lname 7', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example7@xyz.com', '1234567890', 1, '2023-08-17 08:17:32'),
-(8, 'fname 8', 'lname 8', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example8@xyz.com', '1234567890', 1, '2023-08-17 08:17:41'),
-(9, 'fname 9', 'lname 9', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example9@xyz.com', '1234567890', 1, '2023-08-17 08:17:50'),
-(10, 'fname 10', 'lname 10', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example10@xyz.com', '1234567890', 1, '2023-08-17 08:18:00'),
-(11, 'fname 11', 'lname 11', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example11@xyz.com', '1234567890', 1, '2023-08-17 08:18:18'),
-(12, 'fname 12', 'lname 12', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example12@xyz.com', '1234567890', 1, '2023-08-17 08:18:26'),
-(13, 'fname 13', 'lname 13', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example13@xyz.com', '1234567890', 1, '2023-08-17 09:27:41'),
-(14, 'fname 14', 'lname 14', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example14@xyz.com', '1234567890', 1, '2023-08-17 09:27:53'),
-(15, 'fname 15', 'lname 15', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example15@xyz.com', '1234567890', 1, '2023-08-17 09:28:02'),
-(16, 'fname 16', 'lname 16', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example16@xyz.com', '1234567890', 1, '2023-08-17 09:28:11'),
-(17, 'fname 17', 'lname 17', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example17@xyz.com', '1234567890', 1, '2023-08-17 09:28:20'),
-(18, 'fname 18', 'lname 18', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example18@xyz.com', '1234567890', 1, '2023-08-17 09:28:29'),
-(19, 'fname 19', 'lname 19', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example19@xyz.com', '1234567890', 1, '2023-08-17 09:28:37'),
-(20, 'fname 20', 'lname 20', '1999-03-15', 'right answer of the mcq', 'md5hashing', 'dp_link', 'cp_link', '1', 'example20@xyz.com', '1234567890', 1, '2023-08-17 09:28:44');
+(1, 'fname 1', 'lname 1', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '2', 'example1@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(2, 'fname 2', 'lname 2', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example2@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(3, 'fname 3', 'lname 3', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example3@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(4, 'fname 4', 'lname 4', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example4@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(5, 'fname 5', 'lname 5', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example5@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(6, 'fname 6', 'lname 6', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example6@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(7, 'fname 7', 'lname 7', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example7@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(8, 'fname 8', 'lname 8', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example8@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(9, 'fname 9', 'lname 9', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example9@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(10, 'fname 10', 'lname 10', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example10@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(11, 'fname 11', 'lname 11', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example11@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(12, 'fname 12', 'lname 12', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example12@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(13, 'fname 13', 'lname 13', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example13@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(14, 'fname 14', 'lname 14', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example14@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(15, 'fname 15', 'lname 15', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example15@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(16, 'fname 16', 'lname 16', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example16@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(17, 'fname 17', 'lname 17', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example17@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(18, 'fname 18', 'lname 18', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example18@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(19, 'fname 19', 'lname 19', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example19@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(20, 'fname 20', 'lname 20', '1999-03-15', 'right answer of the mcq', 'md5hashing', NULL, 'cp_link', '1', 'example20@xyz.com', '1234567890', 1, '2023-12-13 17:25:20'),
+(107, 'p', 'q', '0787-05-08', NULL, 'x', NULL, NULL, '2', 'mrpohj@a.com', '5', 0, '2023-08-19 17:00:24'),
+(108, 'o', 'jh', '0078-07-07', NULL, '9', NULL, NULL, '3', 'oguogo@g.com', '01626154339', 0, '2023-08-19 17:07:29'),
+(109, 'a', 'c', '0077-05-04', NULL, 'a', NULL, NULL, '3', 'a@qa.com', 'a', 0, '2023-08-19 20:27:17'),
+(110, 'Udoy', 'Saha', '0187-05-07', NULL, 'a', 'IMAGE-1701937989462.png', NULL, '1', '1@a.com', '01626154339', 0, '2023-12-13 17:25:29');
 
 --
 -- Indexes for dumped tables
@@ -367,25 +439,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `chat_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- Constraints for dumped tables
