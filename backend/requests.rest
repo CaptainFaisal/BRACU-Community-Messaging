@@ -5,3 +5,7 @@ Content-Type: application/json
     "id": 1,
     "name": "new name"
 }
+
+###
+
+GET http://localhost:3000/user/getuser/1@a.com/a

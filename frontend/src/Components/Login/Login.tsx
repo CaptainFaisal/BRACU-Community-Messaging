@@ -66,8 +66,12 @@ function Login() {
       .get(`http://localhost:3000/user/getuser/${email}/${password}`)
       .then((res) => {
         console.log(res.data);
-        if (res.data.length == 1) {
-          navigate("/home", { state: res.data[0] });
+        if (res.data) {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          console.log(res.data, "Before Login.tsx response data")
+          navigate("/home");
+          window.location.reload();
+          console.log(res.data, "After Login.tsx response data")
         } else {
           setErrormsg("Invalid credentials");
         }
@@ -117,7 +121,8 @@ function Login() {
       <p className="text-center" style={{ ...signup_text }}>
         Do not have an account?
       </p>
-      <Link to="/signup"
+      <Link
+        to="/signup"
         type="submit"
         className="btn"
         style={{

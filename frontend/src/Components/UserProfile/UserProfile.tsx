@@ -13,16 +13,16 @@ function UserProfile() {
   const [usrPost, setUsrPost] = useState([]);
   const [statusText, setStatusText] = useState("");
   const [connect, setConnect] = useState(false);
-  const [photo, setPhoto] = useState<File | null>(null);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user")!);
   const handleNameSave = async (name:string) => {
     const input = document.getElementById("name") as HTMLInputElement;
     const nameElement = document.createElement("div");
     nameElement.setAttribute("id", "name");
     nameElement.innerHTML = "Updating...";
-    await axios.post(`http://localhost:3000/user/updatename`, {user_id: location.state.currentProfile.user_id, name: name})
-    location.state.currentProfile.firstname = name.split(" ")[0];
-    location.state.currentProfile.lastname = name.split(" ")[1];
+    await axios.post(`http://localhost:3000/user/updatename`, {user_id: user.user_id, name: name})
+    user.firstname = name.split(" ")[0];
+    user.lastname = name.split(" ")[1];
     navigate("/profile", {state: location.state})
     nameElement.innerHTML = name;
     nameElement.ondblclick = handleNameEdit;
@@ -31,8 +31,8 @@ function UserProfile() {
   const handlePhotoUpload = async (e:any) => {
     const formData = new FormData();
     formData.append("myfile", e.target.files[0]);
-    const response = await axios.post(`http://localhost:3000/user/uploadphoto/${location.state.currentProfile.user_id}`, formData)
-    location.state.currentProfile.profile_picture = response.data.file;
+    const response = await axios.post(`http://localhost:3000/user/uploadphoto/${user.user_id}`, formData)
+    user.profile_picture = response.data.file;
     navigate("/profile", {state: location.state})
   }
   const handlePhotoChange = (e:any) => {
@@ -40,7 +40,7 @@ function UserProfile() {
     input.click();
   }
   const handleNameEdit = () => {
-    if (location.state.currentProfile.user_id !== location.state.targetProfile.user_id) {
+    if (user.user_id !== location.state.targetProfile.user_id) {
       return;
     }
 
@@ -97,7 +97,7 @@ function UserProfile() {
   }, [statusText]);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/user/checkconnection/${location.state.currentProfile.user_id}/${location.state.targetProfile.user_id}`)
+    axios.get(`http://localhost:3000/user/checkconnection/${user.user_id}/${location.state.targetProfile.user_id}`)
     .then(res => {
       if (res.data["msg"] === "connected") {
         setConnect(true);
@@ -115,7 +115,7 @@ function UserProfile() {
 
   const getMutualText = () => {
     if (
-      location.state.currentProfile.user_id ===
+      user.user_id ===
       location.state.targetProfile.user_id
     ) {
       return "";
@@ -139,7 +139,7 @@ function UserProfile() {
 
     axios
       .get(
-        `http://localhost:3000/user/getmutualcount/${location.state.currentProfile.user_id}/${location.state.targetProfile.user_id}`
+        `http://localhost:3000/user/getmutualcount/${user.user_id}/${location.state.targetProfile.user_id}`
       )
       .then((res) => {
         setMutualFriend(res.data.mutual);
@@ -149,12 +149,12 @@ function UserProfile() {
       });
   }, []);
 
-  console.log("Current", location.state.currentProfile, "Target", location.state.targetProfile);
+  console.log("Current", user, "Target", location.state.targetProfile);
 
   return (
     <>
       <div id="supercontainer">
-        <Navbar currentProfile={location.state.currentProfile} />
+        <Navbar currentProfile={user} />
         <div className="container" id="profile">
           <div className="coverPhoto">
             <img
@@ -187,9 +187,9 @@ function UserProfile() {
                 <div className="counter">{friendCount} friends</div>
                 <div className="counter">{getMutualText()}</div>
                 {
-                  location.state.currentProfile.user_id === location.state.targetProfile.user_id?
+                  user.user_id === location.state.targetProfile.user_id?
                   <></>:
-                  <button id="connect-btn" onClick={() => handleConnect(location.state.currentProfile.user_id, location.state.targetProfile.user_id)}>{connect?"Connected":"Connect"}</button>
+                  <button id="connect-btn" onClick={() => handleConnect(user.user_id, location.state.targetProfile.user_id)}>{connect?"Connected":"Connect"}</button>
                 }
                 
                 {/* <button id="message-btn">Message</button> */}
@@ -197,10 +197,10 @@ function UserProfile() {
             </div>
             <div className="col-8">
               {
-                location.state.currentProfile.user_id === location.state.targetProfile.user_id?
+                user.user_id === location.state.targetProfile.user_id?
                 <div id="status-container">
                   <StatusBox
-                    currentProfile={location.state.currentProfile}
+                    currentProfile={user}
                     statusText={statusText}
                     setStatusText={setStatusText}
                   />
@@ -223,7 +223,7 @@ function UserProfile() {
                       profilePicture: item.profile_picture,
                     },
                   }}
-                  currentProfile={location.state.currentProfile}
+                  currentProfile={user}
                 />
               ))}
             </div>

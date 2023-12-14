@@ -2,23 +2,22 @@ import Navbar from "../Navbar/Navbar";
 import { useState, useEffect } from "react";
 import "./Newsfeed.css";
 import FindPeople from "../FindPeople/FindPeople";
-import { useLocation } from "react-router";
 import StatusBox from "../StatusBox/StatusBox";
 import UserPost from "../UserPost/UserPost";
 import axios from "axios";
 
 function Newsfeed() {
-  const location = useLocation();
   const [usrData, setUsrData] = useState([]);
   const [usrPost, setUsrPost] = useState([]);
   const [searchBarText, setSearchBarText] = useState("");
   const [statusText, setStatusText] = useState("");
+  const user = JSON.parse(localStorage.getItem("user")!);
 
   const usrSearch = (searchStr: string) => {
     if (searchStr === "") {
       axios
         .get(
-          `http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`
+          `http://localhost:3000/user/getrandomusers/10/${user.user_id}`
         )
         .then((res) => {
           setUsrData(res.data);
@@ -27,7 +26,7 @@ function Newsfeed() {
     } else {
       axios
         .get(
-          `http://localhost:3000/user/getmatchedusers/50/${location.state.user_id}/${searchStr}`
+          `http://localhost:3000/user/getmatchedusers/50/${user.user_id}/${searchStr}`
         )
         .then((res) => {
           setUsrData(res.data);
@@ -42,7 +41,7 @@ function Newsfeed() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3000/post/getallnewsfeed/${location.state.user_id}`
+        `http://localhost:3000/post/getallnewsfeed/${user.user_id}`
       )
       .then((res) => {
         setUsrPost(res.data);
@@ -51,7 +50,7 @@ function Newsfeed() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3000/user/getrandomusers/10/${location.state.user_id}`
+        `http://localhost:3000/user/getrandomusers/10/${user.user_id}`
       )
       .then((res) => {
         setUsrData(res.data);
@@ -63,7 +62,7 @@ function Newsfeed() {
     <>
       <div className="external_wrapper">
         <Navbar
-          currentProfile={location.state}
+          currentProfile={user}
           onSearch={usrSearch}
           setSearchBarText={setSearchBarText}
           searchBarText={searchBarText}
@@ -73,13 +72,13 @@ function Newsfeed() {
             {/* Left panel. Find people option will be here */}
             <h3 className="find_people">Find People</h3>
 
-            {/* <FindPeople allDetails = {user details} currentProfile = {location.state}/> */}
+            {/* <FindPeople allDetails = {user details} currentProfile = {user}/> */}
             {usrData.map((item, index) => {
               return (
                 <FindPeople
                   key={index}
                   allDetails={item}
-                  currentProfile={location.state}
+                  currentProfile={user}
                 />
               );
             })}
@@ -87,7 +86,7 @@ function Newsfeed() {
 
           <div className="col-6 wrapping_div middle_panel">
             {/* Middle panel. Posts will be here */}
-            <StatusBox currentProfile={location.state} statusText={statusText} setStatusText={setStatusText}/>
+            <StatusBox currentProfile={user} statusText={statusText} setStatusText={setStatusText}/>
 
             {usrPost.map((item, index) => (
               <UserPost
@@ -103,7 +102,7 @@ function Newsfeed() {
                     profilePicture: item.profile_picture,
                   },
                 }}
-                currentProfile={location.state}
+                currentProfile={user}
               />
             ))}
           </div>

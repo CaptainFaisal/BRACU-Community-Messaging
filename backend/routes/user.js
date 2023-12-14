@@ -3,6 +3,7 @@ const db = require("../connection.js");
 const router = express.Router();
 const path = require("path");
 const multer = require("multer");
+const jwt = require("jsonwebtoken");
 
 const storage = multer.diskStorage({
   destination: "./uploads/",
@@ -23,7 +24,7 @@ const obj = (req, res, next) => {
     });
 
   } catch (error) {
-    console.log("obj",error)
+    console.log("obj", error)
   }
 }
 
@@ -96,7 +97,15 @@ router.get("/getuser/:email/:password", (req, res) => {
     `SELECT * FROM users WHERE email = "${req.params.email}" AND password = "${req.params.password}"`,
     (err, result) => {
       if (err) console.log(err);
-      else res.send(result);
+      else {
+        if (result.length > 0) {
+          const token = jwt.sign({ id: result.user_id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+          });
+          res.send({ ...result[0], token });
+        }
+        else res.send("")
+      }
     }
   );
 });
@@ -175,7 +184,7 @@ router.post("/uploadphoto/:user_id", upload, async (req, res) => {
   db.query(`UPDATE users SET profile_picture = "${req.file.filename}" WHERE user_id = ${user_id}`
     , (err, result) => {
       if (err) console.log(err);
-      res.send({ "file" : req.file.filename });
+      res.send({ "file": req.file.filename });
     });
 });
 module.exports = router;

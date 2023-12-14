@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router";
 
@@ -10,6 +9,11 @@ interface Props {
 }
 
 function Navbar( {currentProfile = location.state.currentProfile, onSearch, searchBarText, setSearchBarText}: Props ) {
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+  }
   const SearchBarStyle = {
     width: "400px",
     height: "40px",
@@ -105,7 +109,7 @@ function Navbar( {currentProfile = location.state.currentProfile, onSearch, sear
               </button>
             </div>
             <div> {/* Profile */}
-              <button className="navbar" onClick={() => navigate('/profile', {state: {currentProfile: currentProfile, targetProfile: currentProfile}})} onDoubleClick={() => navigate('/')}>
+              <button className="navbar" onClick={() => navigate('/profile', {state: {currentProfile: currentProfile, targetProfile: currentProfile}})} onDoubleClick={handleLogout}>
                 <img
                   src={!currentProfile.profile_picture?`./src/assets/${currentProfile["gender"]==="1"?"maleAvatar.png":"femaleAvatar.png"}`:`http://localhost:3000/uploads/${currentProfile.profile_picture}`}
                   alt="Profile"
