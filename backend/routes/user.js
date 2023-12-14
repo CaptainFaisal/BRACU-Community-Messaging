@@ -99,7 +99,7 @@ router.get("/getuser/:email/:password", (req, res) => {
       if (err) console.log(err);
       else {
         if (result.length > 0) {
-          const token = jwt.sign({ id: result.user_id }, process.env.JWT_SECRET, {
+            const token = jwt.sign({ id: result.user_id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN,
           });
           res.send({ ...result[0], token });
